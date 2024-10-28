@@ -1,0 +1,101 @@
+[
+    {
+        "title": "Programming Language A",
+        "skills": [
+            {
+                "name": "PHP",
+                "img_path": "/skill-icon/programming/php-icon.svg"
+            },
+            {
+                "name": "Python",
+                "img_path": "/skill-icon/programming/python-icon.svg"
+            },
+            {
+                "name": "JavaScript",
+                "img_path": "/skill-icon/programming/javascript-icon.svg"
+            },
+            {
+                "name": "TypeScript",
+                "img_path": "/skill-icon/programming/typescript-icon.svg"
+            },
+            {
+                "name": "Golang",
+                "img_path": "/skill-icon/programming/golang-icon.svg"
+            },
+            {
+                "name": "Java",
+                "img_path": "/skill-icon/programming/java-icon.svg"
+            },
+            {
+                "name": "HTML",
+                "img_path": "/skill-icon/programming/html-icon.svg"
+            },
+            {
+                "name": "CSS",
+                "img_path": "/skill-icon/programming/css-icon.svg"
+            },
+            {
+                "name": "Lua",
+                "img_path": "/skill-icon/programming/lua-icon.svg"
+            },
+            {
+                "name": "C++",
+                "img_path": "/skill-icon/programming/cplus-icon.svg"
+            },
+            {
+                "name": "VB.net",
+                "img_path": "/skill-icon/programming/vb-icon.svg"
+            }
+        ]
+    },
+
+    {
+        "title": "Framework",
+        "skills": [
+            {
+                "name": "PHP",
+                "img_path": "/skill-icon/programming/php-icon.svg"
+            },
+            {
+                "name": "Python",
+                "img_path": "/skill-icon/programming/python-icon.svg"
+            },
+            {
+                "name": "JavaScript",
+                "img_path": "/skill-icon/programming/javascript-icon.svg"
+            },
+            {
+                "name": "TypeScript",
+                "img_path": "/skill-icon/programming/typescript-icon.svg"
+            },
+            {
+                "name": "Golang",
+                "img_path": "/skill-icon/programming/golang-icon.svg"
+            },
+            {
+                "name": "Java",
+                "img_path": "/skill-icon/programming/java-icon.svg"
+            },
+            {
+                "name": "HTML",
+                "img_path": "/skill-icon/programming/html-icon.svg"
+            },
+            {
+                "name": "CSS",
+                "img_path": "/skill-icon/programming/css-icon.svg"
+            },
+            {
+                "name": "Lua",
+                "img_path": "/skill-icon/programming/lua-icon.svg"
+            },
+            {
+                "name": "C++",
+                "img_path": "/skill-icon/programming/cplus-icon.svg"
+            },
+            {
+                "name": "VB.net",
+                "img_path": "/skill-icon/programming/vb-icon.svg"
+            }
+        ]
+    }
+]

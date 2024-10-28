@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "title": "Full-Stack"
+    },
+    {
+        "id": 2,
+        "title": "Front-End"
+    },
+    {
+        "id": 3,
+        "title": "Back-End"
+    },
+    {
+        "id": 4,
+        "title": "Machine Learning"
+    },
+    {
+        "id": 5,
+        "title": "Dev Init 2"
+    },
+    {
+        "id": 6,
+        "title": "High School"
+    }
+]

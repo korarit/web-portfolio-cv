@@ -1,0 +1,233 @@
+[
+    {
+        "title": "Programming Language",
+        "skills": [
+            {
+                "name": "PHP",
+                "img_path": "/skill-icon/programming/php-icon.svg"
+            },
+            {
+                "name": "Python",
+                "img_path": "/skill-icon/programming/python-icon.svg"
+            },
+            {
+                "name": "JavaScript",
+                "img_path": "/skill-icon/programming/javascript-icon.svg"
+            },
+            {
+                "name": "TypeScript",
+                "img_path": "/skill-icon/programming/typescript-icon.svg"
+            },
+            {
+                "name": "Golang",
+                "img_path": "/skill-icon/programming/golang-icon.svg"
+            },
+            {
+                "name": "Java",
+                "img_path": "/skill-icon/programming/java-icon.svg"
+            },
+            {
+                "name": "HTML",
+                "img_path": "/skill-icon/programming/html-icon.svg"
+            },
+            {
+                "name": "CSS",
+                "img_path": "/skill-icon/programming/css-icon.svg"
+            },
+            {
+                "name": "Lua",
+                "img_path": "/skill-icon/programming/lua-icon.svg"
+            },
+            {
+                "name": "C++",
+                "img_path": "/skill-icon/programming/cplus-icon.svg"
+            },
+            {
+                "name": "VB.net",
+                "img_path": "/skill-icon/programming/vb-icon.svg"
+            }
+        ]
+    },
+
+    {
+        "title": "Framework",
+        "skills": [
+            {
+                "name": "Node.js",
+                "img_path": "/skill-icon/framework/nodejs-icon.svg"
+            },
+            {
+                "name": "Bun.sh",
+                "img_path": "/skill-icon/framework/bun-sh-icon.svg"
+            },
+            {
+                "name": "Express.js",
+                "img_path": "/skill-icon/framework/expressjs-icon.svg"
+            },
+            {
+                "name": "Fiber",
+                "img_path": "/skill-icon/framework/gofiber-icon.svg"
+            },
+            {
+                "name": "Elysia.js",
+                "img_path": "/skill-icon/framework/elysiajs-icon.svg"
+            },
+            {
+                "name": "Laravel",
+                "img_path": "/skill-icon/framework/laravel-icon.svg"
+            },
+            {
+                "name": "Flask",
+                "img_path": "/skill-icon/framework/flask-icon.svg"
+            },
+            {
+                "name": "Nest.js",
+                "img_path": "/skill-icon/framework/nestjs-icon.svg"
+            },
+            {
+                "name": "Vue",
+                "img_path": "/skill-icon/framework/vuejs-icon.svg"
+            },
+            {
+                "name": "React",
+                "img_path": "/skill-icon/framework/reactjs-icon.svg"
+            },
+            {
+                "name": "NUXT.JS",
+                "img_path": "/skill-icon/framework/nuxt-icon.svg"
+            },
+            {
+                "name": "NEXT.JS",
+                "img_path": "/skill-icon/framework/nextjs-icon.svg"
+            },
+            {
+                "name": "Electron",
+                "img_path": "/skill-icon/framework/electron-icon.svg"
+            },
+            {
+                "name": "Bootstrap",
+                "img_path": "/skill-icon/framework/bluestrap-icon.svg"
+            },
+            {
+                "name": "Tailwind",
+                "img_path": "/skill-icon/framework/tailwind-icon.svg"
+            },
+            {
+                "name": "Bulma",
+                "img_path": "/skill-icon/framework/bulma-icon.svg"
+            }
+        ]
+    },
+    {
+        "title": "Libary",
+        "skills": [
+            {
+                "name": "Prisma",
+                "img_path": "/skill-icon/library/prisma-icon.svg"
+            },
+            {
+                "name": "Langchain",
+                "img_path": "/skill-icon/library/langchain-icon.svg"
+            }
+        ]
+    },
+    {
+        "title": "Database",
+        "skills": [
+            {
+                "name": "MySQL",
+                "img_path": "/skill-icon/database/mysql-icon.svg"
+            },
+            {
+                "name": "MariaDB",
+                "img_path": "/skill-icon/database/mariadb-icon.svg"
+            },
+            {
+                "name": "PostgreSQL",
+                "img_path": "/skill-icon/database/postgresql-icon.svg"
+            },
+            {
+                "name": "MongoDB",
+                "img_path": "/skill-icon/database/mongodb-icon.svg"
+            },
+            {
+                "name": "Redis",
+                "img_path": "/skill-icon/database/redis-icon.svg"
+            }
+        ]
+    },
+    {
+        "title": "DevOps",
+        "skills": [
+            {
+                "name": "Git",
+                "img_path": "/skill-icon/devops/git-icon.svg"
+            },
+            {
+                "name": "Github",
+                "img_path": "/skill-icon/devops/github-icon.svg"
+            },
+            {
+                "name": "Gitlab",
+                "img_path": "/skill-icon/devops/gitlab-icon.svg"
+            },
+            {
+                "name": "Docker",
+                "img_path": "/skill-icon/devops/docker-icon.svg"
+            },
+            {
+                "name": "Cloudflare",
+                "img_path": "/skill-icon/devops/cloudflare-icon.svg"
+            },
+            {
+                "name": "Vercel",
+                "img_path": "/skill-icon/devops/vercel-icon.svg"
+            },
+            {
+                "name": "Render",
+                "img_path": "/skill-icon/devops/render-icon.svg"
+            }
+        ]
+    },
+    {
+        "title": "Tool",
+        "skills": [
+            {
+                "name": "Vs Code",
+                "img_path": "/skill-icon/tool/vscode-icon.svg"
+            },
+            {
+                "name": "Postman",
+                "img_path": "/skill-icon/tool/postman-icon.svg"
+            },
+            {
+                "name": "Figma",
+                "img_path": "/skill-icon/tool/figma-icon.svg"
+            },
+            {
+                "name": "Trello",
+                "img_path": "/skill-icon/tool/trello-icon.svg"
+            },
+            {
+                "name": "Jira",
+                "img_path": "/skill-icon/tool/jira-icon.svg"
+            },
+            {
+                "name": "Discord",
+                "img_path": "/skill-icon/tool/discord-icon.svg"
+            },
+            {
+                "name": "ChatGPT",
+                "img_path": "/skill-icon/tool/openai-icon.svg"
+            },
+            {
+                "name": "Claude AI",
+                "img_path": "/skill-icon/tool/claudeai-icon.svg"
+            },
+            {
+                "name": "Gemini",
+                "img_path": "/skill-icon/tool/gemini-icon.svg"
+            }
+        ]
+    }
+]

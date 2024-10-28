@@ -2,20 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+
+::-webkit-scrollbar {
+  width: 21px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+::-webkit-scrollbar-track {
+  background: none;
+  border-left: 1px solid #3F3F3F;
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+::-webkit-scrollbar-thumb {
+  background-color: #4B4B4B;
+  border-top: 4px solid transparent;
+  border-left: 4px solid transparent;
+  border-right: 2px solid transparent; /* สร้างพื้นที่โปร่งใสรอบ thumb */
+  background-clip: content-box; /* ทำให้ background อยู่แค่ในส่วน content */
+}
+
+/* เมื่อ hover ที่ thumb */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #5A5A5A;
 }
