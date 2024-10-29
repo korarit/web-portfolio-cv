@@ -1,11 +1,9 @@
 'use client';
 import Image from 'next/image'
 
-import { useState , useEffect, use } from 'react';
+import { useState , useEffect } from 'react';
 
 import FrontawesomeIcon from '@/components/FrontawesomeIcon';
-
-import notFileSelectIcon from '@/assets/icon/not-file-select-2.svg';
 
 
 export default function Home() {
@@ -34,7 +32,6 @@ export default function Home() {
       const new_data:{ [key: string]: any }  = {}
 
       for (let key in listTopics) {
-        console.log('key', key, listTopics[key]);
         new_data[key] = { ...listTopics[key], select: true };
       }
 
@@ -42,14 +39,14 @@ export default function Home() {
       setListTopics(new_data);
     }else{
       //ดูว่า list topic ถูกเลือกหมดหรือไม่
-      console.log('listTopics not all select', Object.keys(listTopics).length);
-      if (Object.keys(listTopics).every((file: any) => file.select === true)) {
+      if (Object.keys(listTopics).every((file: any) => listTopics[file].select === true)) {
         
-        let temdata = listTopics ? {...listTopics} : {};
-        let new_data: { [key: number]: any } = {}
-        Object.keys(temdata).forEach((obj: any) => {
-          new_data[obj] = { ...temdata[obj], select: false };
-        });
+        const new_data: { [key: string]: any } = {}
+
+        for (let key in listTopics) {
+          new_data[key] = { ...listTopics[key], select: false };
+        }
+        console.log('temdata not all select', new_data);
         setListTopics(new_data);
       }
     }
@@ -58,10 +55,13 @@ export default function Home() {
   //ตรวจสอบว่า list topic ถูกเลือกหมดหรือไม่
   useEffect(() => {
     if (Object.keys(listTopics).every((obj: any) => listTopics[obj].select === true)) {
-      setAllSelect(true);
+      if (allSelect === false) {
+        setAllSelect(true);
+      }
     }else{
       setAllSelect(false);
     }
+
   }, [listTopics]);
 
 
@@ -99,6 +99,7 @@ export default function Home() {
   }
 
   const [dataShowing, setDataShowing] = useState<any>(null);
+  const [data_cache, setDataCache] = useState<any>(null);
 
   const loadingData = async (fileName: string) => {
     console.log('loading data');
@@ -110,8 +111,27 @@ export default function Home() {
   const getData = async (fileName: string) => {
     const data = await loadingData(String(fileName).toLowerCase());
     console.log("Loaded data:", data); // แสดงค่า data ที่โหลดมา
+
     setDataShowing(data); // ตั้งค่า dataShowing
+    setDataCache(data); // ตั้งค่า data_cache
   };
+
+  // เมื่อมีการเลือก topic ใหม่
+  useEffect(() => {
+    if (data_cache === null) return;
+    let filteredDataCache: { [key: string]: any } = {};
+
+    Object.keys(data_cache).forEach((key) => {
+      const item = data_cache[key];
+      if (item.topic_id.some((id: any) => listTopics[id] && listTopics[id].select)) {
+        filteredDataCache[key] = item;
+      }
+    });
+
+    console.log("Filtered data:", filteredDataCache); // แสดงข้อมูลที่กรองแล้ว
+
+    setDataShowing(filteredDataCache); // ตั้งค่า dataShowing ใหม่ โดยกรองข้อมูลจาก data_cache 
+  }, [listTopics])
 
   useEffect(() => {
     console.log("Updated dataShowing:", dataShowing); // จะเรียกเมื่อ dataShowing อัพเดต
