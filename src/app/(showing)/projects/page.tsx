@@ -99,6 +99,8 @@ export default function Home() {
   }
 
   const [dataShowing, setDataShowing] = useState<any>(null);
+
+  const [cache_list, setCacheList] = useState<any>({});
   const [data_cache, setDataCache] = useState<any>(null);
 
   const loadingData = async (fileName: string) => {
@@ -113,16 +115,21 @@ export default function Home() {
     console.log("Loaded data:", data); // แสดงค่า data ที่โหลดมา
 
     setDataShowing(data); // ตั้งค่า dataShowing
-    setDataCache(data); // ตั้งค่า data_cache
+    if (selectViewListProject === true) {
+      setCacheList(data); // ตั้งค่า data_list
+    }else{
+      setDataCache(data); // ตั้งค่า data_cache
+    }
   };
 
   // เมื่อมีการเลือก topic ใหม่
   useEffect(() => {
-    if (data_cache === null) return;
+    if (selectViewListProject === false) return;
+    if (cache_list === null) return;
     let filteredDataCache: { [key: string]: any } = {};
 
-    Object.keys(data_cache).forEach((key) => {
-      const item = data_cache[key];
+    Object.keys(cache_list).forEach((key) => {
+      const item = cache_list[key];
       if (item.topic_id.some((id: any) => listTopics[id] && listTopics[id].select)) {
         filteredDataCache[key] = item;
       }
@@ -130,8 +137,8 @@ export default function Home() {
 
     console.log("Filtered data:", filteredDataCache); // แสดงข้อมูลที่กรองแล้ว
 
-    setDataShowing(filteredDataCache); // ตั้งค่า dataShowing ใหม่ โดยกรองข้อมูลจาก data_cache 
-  }, [listTopics])
+    setDataShowing(filteredDataCache); // ตั้งค่า dataShowing ใหม่ โดยกรองข้อมูลจาก data_list 
+  }, [listTopics]);
 
   useEffect(() => {
     console.log("Updated dataShowing:", dataShowing); // จะเรียกเมื่อ dataShowing อัพเดต
@@ -234,7 +241,7 @@ export default function Home() {
             <>
             {listOpenFile.map((file, index) => (
               <div key={index} onClick={() => SetFileView(file)} className={file === selectedFile && selectViewListProject === false  ? 'flex-none w-fit h-full border-b-0 border-r border-[#3F3F3F] px-4 flex items-center gap-x-12 cursor-pointer' : 'flex-none w-fit h-full border-b border-r border-[#3F3F3F] px-4 flex items-center gap-x-12 cursor-pointer'}>
-                <p className='text-[14px] text-[#959595] font-normal leading-[14px]'>{dataShowing[file].name.replace(/\s+/g,'-').toLowerCase()}.md</p>
+                <p className='text-[14px] text-[#959595] font-normal leading-[14px]'>{cache_list[file].name.replace(/\s+/g,'-').toLowerCase()}.md</p>
                 <button title='d' tabIndex={5} onClick={(event) => { event.stopPropagation(); closeFile(file) }}>
                   <FrontawesomeIcon icon='fa-solid fa-xmark' className='text-[20px] text-[#959595] hover:text-white' />
                 </button>
@@ -291,10 +298,19 @@ export default function Home() {
               ):(
                 <>
                   <div className='col-span-12 flex divide-x divide-[#3F3F3F] h-full'>
-                    <div className='w-[60%] h-full'>
+                    <div className='w-[60%] 2xl:w-[55%] h-full pt-4 px-4'>
+                      <div className='flex flex-col w-[90%]'>
+                        <p className='text-[24px] text-[#E2E2E2] font-medium w-fit leading-6'>Project Name</p>                      
+                        <div className='w-full h-px bg-[#4D4D4D] my-2'></div>
+                      </div>
+
+                      <div className='flex flex-col w-[90%]'>
+                        <p className='text-[20px] text-[#E2E2E2] font-medium w-fit leading-6'>Feature</p>                      
+                        <div className='w-full h-px bg-[#4D4D4D] my-2'></div>
+                      </div>
 
                     </div>
-                    <div className='w-[40%] h-full'>
+                    <div className='w-[40%] 2xl:w-[45%] h-full pt-4 px-4'>
 
                     </div>
                   </div>

@@ -42,7 +42,7 @@ export default function Home() {
 
   const loadingData = async (index : number) => {
     console.log('loading data');
-    const res = await fetch(`/data_test/${listFiles[index]}.json`);
+    const res = await fetch(`/api/skill`);
     const data = await res.json();
     return data;
   }
@@ -53,7 +53,7 @@ export default function Home() {
     if (dataCache.hasOwnProperty(index) === false) {
       const data = await loadingData(index);
       console.log(data);
-      const show_data = setDataCache(index, data);
+      const show_data = setDataCache(index, data.data.list_skill);
       setDataShowing(show_data);
     }else{
       setDataShowing(dataCache);
@@ -176,7 +176,7 @@ export default function Home() {
                               <Image src={item.img_path} width={79} height={79} alt={item.name} className='object-cover object-center w-full h-full' />
                             </div>
                             <div className='absolute bottom-0 left-0 w-full z-50 group-hover:py-2 group-hover:px-1 bg-black/60 h-0 group-hover:h-fit transition duration-300 ease-in-out overflow-hidden  '>
-                              <p className='text-[14px] select-none text-[#ffffff] font-normal leading-[14px]'>{item.name}</p>
+                              <p className='text-[12px] select-none text-[#ffffff] font-normal leading-[14px]'>{item.name}</p>
                             </div>
                           </div>
                         ))}
