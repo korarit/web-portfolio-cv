@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
-export default async function GetListTopic(){
+export default async function GetListTopic(): Promise<[boolean,number,{list:any,count:number}]> {
     try{
         const data = await prisma.project_topic.findMany({
             select:{
@@ -11,7 +11,7 @@ export default async function GetListTopic(){
             }
         })  
 
-        return {list: data, count: data.length}
+        return [true,200,{list: data, count : data.length}]
     } catch (error) {
         throw error
     }
