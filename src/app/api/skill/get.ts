@@ -1,5 +1,4 @@
 import { PrismaClient } from '@prisma/client'
-import { count } from 'console'
 
 const prisma = new PrismaClient()
 
