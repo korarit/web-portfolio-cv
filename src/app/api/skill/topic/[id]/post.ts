@@ -4,19 +4,25 @@ import { uploadToR2 } from '@/lib/cloudflare'
 
 const prisma = new PrismaClient()
 
-export async function addSkillToTopic(topic_id: number, name: string, icon: File) {
+export async function addSkillToTopic(topic_id: number, name: FormDataEntryValue|null, icon: FormDataEntryValue|null): Promise<[boolean, number, {success: boolean, message: string, data?: any}]> {
     try{
-
+        if (!name ||  !icon) {
+            return [false, 400,{success: false, message: 'name and icon is required'}]
+        }
         if (!icon) {
             return [false, 400,{success: false, message: 'icon is required'}]
         }
+
+        const file = icon as File
+
+        
         //check icon is svg
-        if (icon.type !== 'image/svg+xml') {
+        if (file.type !== 'image/svg+xml') {
             return [false, 400,{success: false, message: 'icon must be svg'}]
         }
 
         //get icon extension
-        const icon_ext = icon.name.split('.')[-1]
+        const icon_ext = file.name.split('.')[-1]
         if (icon_ext !== 'svg') {
             return [false, 400,{success: false, message: 'icon must be svg'}]
         }
@@ -24,12 +30,12 @@ export async function addSkillToTopic(topic_id: number, name: string, icon: File
         const file_name = `${uuidv7()}.${icon_ext}`
 
         //upload icon
-        const icon_url = await uploadToR2(icon, 'skill', file_name)
+        const icon_url = await uploadToR2(file, 'skill', file_name)
     
 
         const result = await prisma.skill.create({
             data: {
-                name: name,
+                name: name.toString(),
                 img_path: icon_url,
                 skill_topic: {
                     connect: {

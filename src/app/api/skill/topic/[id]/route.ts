@@ -6,28 +6,16 @@ export async function POST(Request: NextRequest, {params}: {params: {id: number}
         const FromData = await Request.formData()
         const name = FromData.get('name')
         const icon = FromData.get('icon')
-        const social = FromData.get('social')
-        
-        if (!name ||  !icon || !social) {
-            return NextResponse.json({
-                success: false, message: 'missing required field name, link, icon, social are required'
-            }, {status: 400})
+
+
+        const data = await addSkillToTopic(params.id, name, icon)
+        if (!data[0]){
+            return NextResponse.json(data[2], {status: data[1]})
         }
-
-        const file = icon as File
-
-
-        const data = await addSkillToTopic(params.id, name.toString(), file)
-        return NextResponse.json({
-            success: true,
-            message: 'contact data added successfully',
-            data: data
-        }, {status: 201})
+        
+        return NextResponse.json(data[2], {status: data[1]})
     } catch (error) {
-        return NextResponse.json({
-            success: false,
-            message: 'failed to add contact data',
-            error: error
-        }, {status: 500})
+        return NextResponse.json({success: false,message: 'failed to add contact data',error: error}, {status: 500})
     }
 }
+
