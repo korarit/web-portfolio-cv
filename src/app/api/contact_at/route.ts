@@ -54,14 +54,14 @@ interface Contact {
 export async function POST(Request: NextRequest) {
     try {
         const {name, link, icon, social} = await Request.json()
-        
+
         if (!name || !link || !icon || !social) {
             return NextResponse.json({
                 success: false, message: 'missing required field name, link, icon, social are required',
             }, {status: 400})
         }
 
-        const contactData: Contact = {name, link, icon, social}
+        const contactData: Contact = {name:name, link:link, icon:icon, social:social}
 
         const result = await addContantDB(contactData.name, contactData.link, contactData.icon, contactData.social)
         return NextResponse.json(result, {status: 201})
