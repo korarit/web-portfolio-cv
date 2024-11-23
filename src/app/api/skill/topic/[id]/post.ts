@@ -13,7 +13,11 @@ export async function addSkillToTopic(topic_id: number, name: FormDataEntryValue
             return [false, 400,{success: false, message: 'icon is required'}]
         }
 
-        const file = icon as File
+        if (!(icon instanceof File)) {
+            return [false, 400, { success: false, message: 'img_banner must be a File object' }];
+        }
+
+        const file = icon
 
         
         //check icon is svg
