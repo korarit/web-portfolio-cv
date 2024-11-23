@@ -11,10 +11,16 @@ export function middleware(req: NextRequest) {
             return NextResponse.json({success: false, message: 'token required'}, {status: 401})
         }
 
+        //ตรวจสอบว่า token ขึ้นต้นด้วย Bearer หรือไม่
+        if (!req.headers.get('Authorization')?.startsWith('Bearer ')){
+            return NextResponse.json({success: false, message: 'invalid token token not start with Bearer'}, {status: 401})
+        }
+
         const token = req.headers.get('Authorization')?.replace('Bearer ', '');
         const password = process.env.EDIT_TOKEN
         // ตรวจสอบว่า token ที่ส่งมาถูกต้องหรือไม่
         if (token !== password){
+            console.log('token', password);
             return NextResponse.json({success: false, message: 'invalid token'}, {status: 401})
         }
 
