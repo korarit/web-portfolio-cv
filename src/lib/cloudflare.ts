@@ -38,11 +38,13 @@ export async function uploadToR2(file: File, folder:string, FileName: string) {
 
     const path = `${folder}/${FileName}`;
 
+    const arrayBuffer = await file.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+
     const params:PutObjectCommandInput = {
         Bucket: bucket,
         Key: path,
-        Body: file,
-        ContentType: file.type,
+        Body: buffer
     };
     try {
         const data = await S3.send(new PutObjectCommand(params));
@@ -65,6 +67,7 @@ export async function deleteFromR2(FilePath: string) {
         const data = await S3.send(new DeleteObjectCommand(params));
         return data;
     } catch (error) {
+        console.log('error upload file', error);
         throw error;
     }
 }
