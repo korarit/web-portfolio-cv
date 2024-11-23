@@ -26,6 +26,6 @@ export async function POST(Request: NextRequest) {
 
         return NextResponse.json(data[2], {status: data[1]})
     }catch(error){
-        return NextResponse.json({success: false,message: 'failed to fetch topic data',error: error}, {status: 500})
+        return NextResponse.json({success: false,message: 'failed to fetch topic data', error: error}, {status: 500})
     }
 }
