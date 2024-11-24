@@ -4,9 +4,9 @@ import GetProject from './get'
 import updateProject from './patch'
 import deleteProject from './delete'
 
-export async function GET(Request: NextRequest, {params}: {params: {id: number}}) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: number }>}) {
     try{
-        const {id} = params
+        const {id} = await params
 
         const [status, data] = await GetProject(id)
         return NextResponse.json(data, {status: status})
@@ -19,11 +19,11 @@ export async function GET(Request: NextRequest, {params}: {params: {id: number}}
     }
 }
 
-export async function PATCH(Request: NextRequest, {params}: {params: {id: number}}) {
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: number }>}) {
     try{
-        const {id} = params
+        const {id} = await params
 
-        const formData = await Request.formData();
+        const formData = await request.formData();
         const topic_id = formData.get('topic_id');
         const name = formData.get('name');
         const description = formData.get('description');
@@ -54,9 +54,9 @@ export async function PATCH(Request: NextRequest, {params}: {params: {id: number
 }
 
 
-export async function DELETE(Request: NextRequest, {params}: {params: {id: number}}) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: number }>}) {
     try{
-        const {id} = params
+        const {id} =  await params
 
         const data = await deleteProject(id)
 

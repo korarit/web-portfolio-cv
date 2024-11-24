@@ -15,9 +15,9 @@ export async function GET() {
     }
 }
 
-export async function POST(Request: NextRequest) {
+export async function POST(request: NextRequest) {
     try{
-        const {name} = await Request.json()
+        const {name} = await request.json()
 
         const data = await addTopic(name)
         if(!data[0]){

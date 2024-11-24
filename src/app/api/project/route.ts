@@ -19,9 +19,9 @@ export async function GET() {
     }
 }
 
-export async function POST(req: Request) {
+export async function POST(request: Request) {
     try{
-        const formData = await req.formData();
+        const formData = await request.formData();
         const topic_id = formData.get('topic_id');
         const name = formData.get('name');
         const description = formData.get('description');

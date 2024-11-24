@@ -17,9 +17,9 @@ export async function GET() {
 }
 
 
-export async function POST(Request: NextRequest) {
+export async function POST(request: NextRequest) {
     try{
-        const fromData = await Request.formData()
+        const fromData = await request.formData()
 
         const topic_id = fromData.get('topic_id')
         const name = fromData.get('name')

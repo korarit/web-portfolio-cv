@@ -4,11 +4,11 @@ import { getSocial, getProjects } from './get'
 import addContantDB from './post'
 
 
-export async function GET(Request: NextRequest) {
+export async function GET(request: NextRequest) {
     try {
 
-        const Social = Request.nextUrl.searchParams.get('social')
-        const ShowProjects = Request.nextUrl.searchParams.get('project')
+        const Social = request.nextUrl.searchParams.get('social')
+        const ShowProjects = request.nextUrl.searchParams.get('project')
 
         if (Social === null && ShowProjects === null) {
             return NextResponse.json({
@@ -51,9 +51,9 @@ interface Contact {
     icon: string,
     social: boolean
 }
-export async function POST(Request: NextRequest) {
+export async function POST(request: NextRequest) {
     try {
-        const {name, link, icon, social} = await Request.json()
+        const {name, link, icon, social} = await request.json()
 
         if (!name || !link || !icon || !social) {
             return NextResponse.json({

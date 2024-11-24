@@ -4,12 +4,12 @@ import updateTopic from './patch'
 import deleteTopic from './delete'
 
 
-export async function PATCH(Request: NextRequest, {params}: {params: {id: string}}) {
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: number }>} ) {
     try{
-        const {id} = params
-        const {name} = await Request.json()
+        const {id} = await params
+        const {name} = await request.json()
 
-        const [status, message] = await updateTopic(parseInt(id), name)
+        const [status, message] = await updateTopic(id, name)
 
         return NextResponse.json(message, {status: status})
     }catch(error){
@@ -17,11 +17,11 @@ export async function PATCH(Request: NextRequest, {params}: {params: {id: string
     }
 }
 
-export async function DELETE(Request: NextRequest, {params}: {params: {id: string}}) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: number }>}) {
     try{
-        const {id} = params
+        const {id} = await params
 
-        const data = await deleteTopic(parseInt(id))
+        const data = await deleteTopic(id)
 
         return NextResponse.json(data[1], {status: data[0]})
     }catch(error){
