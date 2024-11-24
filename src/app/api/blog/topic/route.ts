@@ -4,8 +4,8 @@ import addTopic from './post'
 
 export async function GET() {
     try{
-        const data = await getData()
-        return NextResponse.json(data[2], {status: data[1]})
+        const [status, message] = await getData()
+        return NextResponse.json(message, {status: status})
     }catch(error){
         return NextResponse.json({
             success: false,

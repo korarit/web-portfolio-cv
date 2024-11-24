@@ -3,11 +3,11 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 
-export default async function updateTopic(id:number, name:string|null|undefined): Promise<[boolean, number, {success: boolean, message: string, data?: any}]> {
+export default async function updateTopic(id:number, name:string|null|undefined): Promise<[number, {success: boolean, message: string, data?: any}]> {
     try{
 
         if(!name){
-            return [false,400,{success: false, message: 'name is required'}]
+            return [400,{success: false, message: 'name is required'}]
         }
         const topic = await prisma.blog_topic.findFirst({
             where: {
@@ -16,7 +16,7 @@ export default async function updateTopic(id:number, name:string|null|undefined)
         })
 
         if(!topic){
-            return [false,400,{success: false, message: 'topic not found'}]
+            return [400,{success: false, message: 'topic not found'}]
         }
 
         const result = await prisma.blog_topic.update({
@@ -28,7 +28,7 @@ export default async function updateTopic(id:number, name:string|null|undefined)
             }
         })
 
-        return [true,200,{success: true, message: 'topic updated successfully', data: result}]
+        return [200,{success: true, message: 'topic updated successfully', data: result}]
     } catch (error) {
         throw error
     }

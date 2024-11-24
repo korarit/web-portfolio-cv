@@ -9,12 +9,9 @@ export async function PATCH(Request: NextRequest, {params}: {params: {id: string
         const {id} = params
         const {name} = await Request.json()
 
-        const data = await updateTopic(parseInt(id), name)
-        if(!data[0]){
-            return NextResponse.json(data[2], {status: data[1]})
-        }
+        const [status, message] = await updateTopic(parseInt(id), name)
 
-        return NextResponse.json(data[2], {status: data[1]})
+        return NextResponse.json(message, {status: status})
     }catch(error){
         return NextResponse.json({success: false,message: 'failed to fetch topic blog', error: error}, {status: 500})
     }
@@ -25,11 +22,8 @@ export async function DELETE(Request: NextRequest, {params}: {params: {id: strin
         const {id} = params
 
         const data = await deleteTopic(parseInt(id))
-        if(!data[0]){
-            return NextResponse.json(data[2], {status: data[1]})
-        }
 
-        return NextResponse.json(data[2], {status: data[1]})
+        return NextResponse.json(data[1], {status: data[0]})
     }catch(error){
         console.log(error)
         return NextResponse.json({success: false,message: 'failed to fetch topic blog', error: error}, {status: 500})
