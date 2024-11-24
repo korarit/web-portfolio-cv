@@ -2,10 +2,11 @@ import { NextResponse , NextRequest } from 'next/server'
 import getData from './get';
 import addBlog from './post';
 
+
 export async function GET() {
     try{
-        const data = await getData()
-        return NextResponse.json(data[2], {status: data[1]})
+        const [status, message] = await getData()
+        return NextResponse.json(message, {status: status})
     }catch(error){
         return NextResponse.json({
             success: false,
@@ -14,6 +15,7 @@ export async function GET() {
         }, {status: 500})
     }
 }
+
 
 export async function POST(Request: NextRequest) {
     try{
@@ -25,13 +27,9 @@ export async function POST(Request: NextRequest) {
         const view_count = fromData.get('view_count')
         const img_banner = fromData.get('img_banner')
 
+        const [status, message] = await addBlog(topic_id, name, link, view_count, img_banner)
 
-        const data = await addBlog(topic_id, name, link, view_count, img_banner)
-        if(!data[0]){
-            return NextResponse.json(data[2], {status: data[1]})
-        }
-
-        return NextResponse.json(data[2], {status: data[1]})
+        return NextResponse.json(message, {status: status})
     }catch(error){
         return NextResponse.json({success: false,message: 'failed to fetch blog list', error: error}, {status: 500})
     }

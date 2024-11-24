@@ -4,17 +4,23 @@ import { uploadToR2 } from '@/lib/cloudflare'
 
 const prisma = new PrismaClient()
 
-export default async function addBlog(blog_topic: FormDataEntryValue|null, name: FormDataEntryValue|null, link: FormDataEntryValue|null, view_count: FormDataEntryValue|null, img_banner: FormDataEntryValue|null): Promise<[boolean, number, {success: boolean, message: string, data?: any}]> {
+export default async function addBlog(
+    blog_topic: FormDataEntryValue|null, 
+    name: FormDataEntryValue|null, 
+    link: FormDataEntryValue|null, 
+    view_count: FormDataEntryValue|null, 
+    img_banner: FormDataEntryValue|null
+): Promise<[number, {success: boolean, message: string, data?: any}]> {
     try{
         if (!blog_topic ||  !name || !link || !view_count || !img_banner) {
-            return [false, 400,{success: false, message: 'blog_topic, name, link, view_count, img_banner is required'}]
+            return [400,{success: false, message: 'blog_topic, name, link, view_count, img_banner is required'}]
         }
         if (isNaN(Number(view_count)) || Number(view_count) < 0 || isNaN(Number(blog_topic)) || Number(blog_topic) < 0) {
-            return [false, 400,{success: false, message: 'view_count or blog_topic must be number'}]
+            return [400,{success: false, message: 'view_count or blog_topic must be number'}]
         }
 
         if (!(img_banner instanceof File)) {
-            return [false, 400, { success: false, message: 'img_banner must be a File object' }];
+            return [400, { success: false, message: 'img_banner must be a File object' }];
         }
 
         const file = img_banner
@@ -41,7 +47,7 @@ export default async function addBlog(blog_topic: FormDataEntryValue|null, name:
             }
         })
 
-        return [false, 400,{success: true, message: 'skill topic added successfully', data: result}]
+        return [200,{success: true, message: 'skill topic added successfully', data: result}]
     }catch (error) {
         throw error
     }

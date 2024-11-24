@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
-export default async function GetListBlog(): Promise<[boolean,number,{success:boolean,message:string,data:any}]> {
+export default async function GetListBlog(): Promise<[number,{success:boolean,message:string,data:any}]> {
     try{
         const data = await prisma.blog.findMany({
             select:{
@@ -25,7 +25,7 @@ export default async function GetListBlog(): Promise<[boolean,number,{success:bo
             ]
         })  
 
-        return [true,200,{success: true, message: 'blog fetched successfully', data: {list : data, count: data.length}}]
+        return [200,{success: true, message: 'blog fetched successfully', data: {list : data, count: data.length}}]
     } catch (error) {
         throw error
     }
