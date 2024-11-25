@@ -7,7 +7,7 @@ export default async function deleteTopic(id:number): Promise<[number, {success:
 
         const topic = await prisma.blog_topic.findFirst({
             where: {
-                id: id
+                id: parseInt(id.toString())
             }
         })
 
@@ -18,7 +18,7 @@ export default async function deleteTopic(id:number): Promise<[number, {success:
         //check if topic already exist
         const deletes = await prisma.blog_topic.delete({
             where: {
-                id: id
+                id: parseInt(id.toString())
             }
         })
 

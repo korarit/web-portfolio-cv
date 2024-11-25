@@ -11,7 +11,7 @@ export default async function updateTopic(id:number, name:string|null|undefined)
         }
         const topic = await prisma.blog_topic.findFirst({
             where: {
-                id: id
+                id: parseInt(id.toString())
             }
         })
 
@@ -21,7 +21,7 @@ export default async function updateTopic(id:number, name:string|null|undefined)
 
         const result = await prisma.blog_topic.update({
             where: {
-                id: id
+                id: parseInt(id.toString())
             },
             data: {
                 name: name
