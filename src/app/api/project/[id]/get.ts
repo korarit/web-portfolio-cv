@@ -40,7 +40,7 @@ export default async function GetProject(ProjectId: number): Promise<[number, {s
 
             },
             where: {
-                id: ProjectId
+                id: parseInt(ProjectId.toString())
             }
         })  
 

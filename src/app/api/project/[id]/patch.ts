@@ -21,7 +21,7 @@ export default async function updateProject(
                 id: true
             },
             where: {
-                id: ProjectId
+                id: parseInt(ProjectId.toString())
             }
         })
 
@@ -87,12 +87,15 @@ export default async function updateProject(
         const result = await prisma.project.update({
             data: data,
             where: {
-                id: ProjectId
+                id: parseInt(ProjectId.toString())
             }
         })
 
+        console.log(result)
+
         return [200,{success: true, message: 'skill topic patch successfully', data: result}]
     }catch (error) {
+        console.log(error)
         throw error
     }
 }
