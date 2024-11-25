@@ -47,7 +47,7 @@ export async function addSkillToTopic(
                 img_path: icon_url,
                 skill_topic: {
                     connect: {
-                        id: topic_id
+                        id: parseInt(topic_id.toString())
                     }
                 }
             }
