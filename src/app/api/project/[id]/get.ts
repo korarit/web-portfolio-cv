@@ -26,7 +26,8 @@ export default async function GetProject(ProjectId: number): Promise<[number, {s
                 project_features: {
                     select: {
                         id: true,
-                        name: true
+                        name: true,
+                        success: true
                     }
                 },
 
