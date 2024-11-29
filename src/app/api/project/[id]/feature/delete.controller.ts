@@ -37,7 +37,7 @@ export default async function deleteFeature(ProjectId: number, FeatureID:number|
             return [500, {success: false, message: 'failed to add feature'}]
         }
 
-        return [200, {success: true, message: 'feature added'}]
+        return [200, {success: true, message: 'feature deleted successfully'}]
     } catch (error) {
         return [500, {success: false, message: 'failed to add feature', error: error}]
     }
