@@ -24,3 +24,35 @@
 ::-webkit-scrollbar-thumb:hover {
   background-color: #5A5A5A;
 }
+
+
+.fade-zoom-in{
+  animation: fade-zoom-in 0.5s ease-in-out;
+}
+
+.blur-to-focus{
+  animation: blurToFocus 0.5s ease-in-out;
+}
+
+@keyframes fade-zoom-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* การกำหนด Animation */
+@keyframes blurToFocus {
+  0% {
+    opacity: 0; /* เริ่มต้นโปร่งใส */
+    filter: blur(1px); /* เบลอมาก */
+  }
+  100% {
+    opacity: 1; /* แสดงเต็มที่ */
+    filter: blur(0px); /* ไม่เบลอ */
+  }
+}
