@@ -54,6 +54,16 @@ export default function Navbar() {
         >
           <p className="text-[16px] font-normal">../projects</p>
         </Link>
+        <Link
+          href="/blog"
+          className={
+            currentPath === "/blog"
+              ? "flex-none h-full px-4 flex items-center border-b-4 border-r border-b-[#FFFFFF] border-r-[#3F3F3F] text-[#959595]"
+              : "flex-none h-full flex items-center px-4 border-b border-r border-[#3F3F3F] text-[#959595] hover:text-white"
+          }
+        >
+          <p className="text-[16px] font-normal">../blog</p>
+        </Link>
 
         <div className="flex-auto h-full flex items-center border-b border-r border-[#3F3F3F]"></div>
 
