@@ -41,6 +41,7 @@ export default function ProjectDetail({ projectID }: { projectID: number|null })
         <div className="w-full h-full ">
             {showingData ? (
             <div className="w-full h-full flex divide-x divide-[#3F3F3F] blur-to-focus">
+                {/* Detail of Project */}
                 <div className="w-[60%] 2xl:w-[55%] h-full overflow-y-auto py-4 px-4 flex flex-col gap-y-10">
                     <div className="flex flex-col w-[90%]">
                         <p className="text-[24px] text-[#E2E2E2] font-medium w-fit leading-6">
@@ -109,7 +110,32 @@ export default function ProjectDetail({ projectID }: { projectID: number|null })
                     </div>
                     )}
                 </div>
-                <div className="w-[40%] 2xl:w-[45%] h-full pt-4 px-4"></div>
+                {/* Image or Youtube of Project */}
+                <div className="w-[40%] 2xl:w-[45%] h-full flex items-center">
+                    <div className="w-full pt-4 px-4 h-fit overflow-y-auto max-h-full flex flex-col gap-y-6">
+                    {project?.youtube_link !== null || project?.project_imgs?.length > 0 ? (
+                    <>
+                        {project?.youtube_link !== null && (
+                        <iframe className="w-full aspect-video relative rounded-md" src={project?.youtube_link} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
+                        )}
+                        {project?.project_imgs?.length > 0 && (
+                        <>
+                            {project?.project_imgs.map((img: any, index: number) => (
+                                <Image src={img.img_path} width={400} height={200} loading="lazy" alt={index.toString()} key={index} className="object-cover object-center w-full h-auto rounded-md" />
+                            ))}
+                        </>
+                        )}
+                    </>
+                    ):(
+                    <div className="w-full h-full flex justify-center items-center">
+                        <div className="flex flex-col items-center gap-y-1">
+                            <FrontawesomeIcon icon="fa-solid fa-image" className="text-[#959595] text-[44px]" />
+                            <p className="text-[20px] text-[#959595] font-normal">No Image or Youtube Preview</p>
+                        </div>
+                    </div>
+                    )}
+                    </div>
+                </div>
             </div>
             ):(
             <div className="w-full h-full flex justify-center items-center">
