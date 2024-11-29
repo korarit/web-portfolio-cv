@@ -305,6 +305,8 @@ export default function Home() {
               {selectViewListProject === true ? (
                 <>
                 {showingofData && listTopics !== null && dataShowing !== null ? (
+                <>
+                {dataShowing?.length > 0 ? (
                 <div className='grid grid-cols-12 gap-x-10 gap-y-8 grid-flow-row p-4 blur-to-focus'>
                     {dataShowing.map((item:any,index:any) => (
                       <div key={index} className='col-span-4 flex flex-col h-auto  rounded-lg overflow-hidden'>
@@ -330,9 +332,16 @@ export default function Home() {
                       </div>
                     ))
                     }
-                </div>
+                
+                  </div>
+                  ) : (
+                    <div className=' flex items-center justify-center h-full w-full'>
+                      <p className='text-[24px] text-[#959595] font-normal text-center blur-to-focus'>No Data Found</p>
+                    </div>
+                )}
+                </>
                 ) : (
-                  <div className='col-span-12 flex items-center justify-center h-full w-full'>
+                  <div className='flex items-center justify-center h-full w-full'>
                     <div className='w-[30%] flex flex-col'>
                       <p className='text-[20px] text-[#959595] font-normal text-center'>Loading...</p>
                       <div className='h-4 w-full'>
@@ -344,7 +353,7 @@ export default function Home() {
                 </>
               ):(
                 <>
-                  <div className='col-span-12 h-full'>
+                  <div className='w-full h-full'>
                     <ProjectDetail projectID={selectedFile} />
                   </div>
                 </>

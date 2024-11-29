@@ -208,6 +208,12 @@ export default function Home() {
             <div className="w-full h-full overflow-y-auto">
             <div className=' h-full max-h-full overflow-y-auto'>
                 {BlogShowing && dataShowing !== null && Array.isArray(Object.keys(dataShowing)) ? (
+                <>
+                {Object.keys(dataShowing).length === 0  ? (
+                  <div className='flex items-center justify-center h-full w-full'>
+                    <p className='text-[24px] text-[#959595] font-normal blur-to-focus'>No Data Found</p>
+                  </div>
+                ):(
                 <div className='grid grid-cols-12 gap-x-10 gap-y-8 grid-flow-row p-4 blur-to-focus'>
                     {Object.keys(dataShowing).map((obj:string) => (
                       <div key={obj} className='col-span-4 flex flex-col h-auto  rounded-lg overflow-hidden'>
@@ -247,6 +253,8 @@ export default function Home() {
                     ))
                     }
                 </div>
+                )}
+                </>
                 ) : (
                   <div className='flex items-center justify-center h-full w-full'>
                     <div className='w-[30%] flex flex-col'>
