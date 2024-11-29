@@ -1,11 +1,10 @@
 'use client';
-import Link from 'next/link';
 import Image from 'next/image'
 
-import { useState , useEffect } from 'react';
+import { useState , useEffect, use } from 'react';
 
 import FrontawesomeIcon from '@/components/FrontawesomeIcon';
-
+import LoadingBar from '@/components/LoadingBar';
 import notFileSelectIcon from '@/assets/icon/not-file-select-2.svg';
 
 
@@ -59,10 +58,23 @@ export default function Home() {
       setDataShowing(dataCache);
     }
   }
-
   useEffect(() => {
-      getData(selectedFile);
+    getData(selectedFile);
   });
+
+  const [dataLoading, setDataLoading] = useState<boolean>(false);
+  useEffect(() => {
+    if (dataShowing !== null) {
+      setDataLoading(true);
+    }
+  }, [dataShowing]);
+
+  const [showing, setShowing] = useState<boolean>(false);
+  const handleSuccess = () => {
+    setTimeout(() => {setDataLoading(false);setShowing(true);}, 0);
+  };
+
+  
 
   const closeFile = (file: number) => {
     setlistOpenFile(listOpenFile.filter(number => number !== file));
@@ -154,10 +166,10 @@ export default function Home() {
             </div>
           ) : (
             <div className="h-full overflow-y-auto">
-            <div className='p-4 grid grid-cols-12 grid-flow-row overflow-y-auto'>
+            <div className='p-4 h-full'>
 
-              {dataShowing !== null && Array.isArray(dataShowing[selectedFile])? (
-                <>
+              {showing !== false && dataShowing !== null && Array.isArray(dataShowing[selectedFile])  ? (
+                <div className='min-h-full overflow-y-auto grid grid-cols-12 grid-flow-row blur-to-focus'>
                   {dataShowing[selectedFile].map((skill: any, index: number) => (
                     <div key={index} className='col-start-2 col-span-10 flex flex-col h-fit mb-16 last:mb-8'>
                       <div className='grid grid-cols-10'>
@@ -175,8 +187,8 @@ export default function Home() {
                             <div className='w-full h-auto'>
                               <Image src={item.img_path} width={79} height={79} alt={item.name} className='object-cover object-center w-full h-full' />
                             </div>
-                            <div className='absolute bottom-0 left-0 w-full z-50 group-hover:py-2 group-hover:px-1 bg-black/60 h-0 group-hover:h-fit transition duration-300 ease-in-out overflow-hidden  '>
-                              <p className='text-[12px] select-none text-[#ffffff] font-normal leading-[14px]'>{item.name}</p>
+                            <div className='absolute bottom-0 left-0 w-full z-50 px-1 bg-black/60 h-0 group-hover:h-[32px] transition-[height] duration-300 ease-in-out flex items-center  overflow-hidden'>
+                              <p className='text-[12px] select-none text-[#ffffff] font-normal leading-[14px] text-nowrap'>{item.name}</p>
                             </div>
                           </div>
                         ))}
@@ -185,10 +197,17 @@ export default function Home() {
                     </div>
                   ))
                   }
-                </>
+                </div>
               ) : (
                 <div className='flex items-center justify-center h-full w-full'>
-                  <p className='text-[20px] text-[#959595] font-normal'>Loading...</p>
+                  <div className='flex flex-col w-[30%]'>
+                    <p className='text-[20px] text-[#959595] font-normal text-center'>Loading...</p>
+                    <div className='h-4 w-full'>
+                      <LoadingBar isLoading={dataLoading} successFunc={handleSuccess} />
+                    </div>
+                    
+                  </div>
+
                 </div>
               )}
               </div>

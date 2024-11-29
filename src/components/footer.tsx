@@ -13,9 +13,10 @@ export default function Footer() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const getContact = await fetch('/api/contact_at')
+      const getContact = await fetch('/api/contact_at?social=true')
       const GetJson = await getContact.json()
-      setData(GetJson.data.list_contact)
+      console.log(GetJson)
+      setData(GetJson.data.list)
     }
     fetchData()
   }, [])

@@ -1,22 +1,24 @@
 'use client';
 import Image from 'next/image'
 
-import { useState , useEffect } from 'react';
+import { useState , useEffect, use } from 'react';
 
 import FrontawesomeIcon from '@/components/FrontawesomeIcon';
+import LoadingBar from '@/components/LoadingBar';
+import ProjectDetail from '@/components/ProjectDetail';
 
 
 export default function Home() {
 
   const [allSelect, setAllSelect] = useState<boolean>(true);
-  const [listTopics, setListTopics] = useState<{ [key: string]: any }>({});
+  const [listTopics, setListTopics] = useState<{ [key: string]: {id:number,name:string,select:boolean} }|null>(null);
 
   const loadTopics = async () => {
-    const res = await fetch(`/data_test/list-poject-topic.json`);
+    const res = await fetch(`/api/project/topic`);
     const data = await res.json();
     //สร้าง list ของ topic ที่มีการเลือก โดยที่ id ของ topic จะเป็น index ของ list
-    let temdata: { [key: string]: any } = {}
-    data.forEach((file: any, index: number) => {
+    let temdata: { [key: string]: {id:number,name:string,select:boolean} } = {}
+    data.list.forEach((file: any, index: number) => {
       temdata[file['id']] = { ...file, select: true };
     });
     console.log('temdata', temdata);
@@ -25,6 +27,21 @@ export default function Home() {
   useEffect(() => {
     loadTopics();
   }, []);
+
+
+  //จัดการ loading ของ topic
+  const [loadingTopic, setLoadingTopic] = useState<boolean>(false);
+  const [showTopic, setShowTopic] = useState<boolean>(false);
+  useEffect(() => {
+    if (listTopics !== null) {
+      setLoadingTopic(true);
+    }
+  }, [listTopics]);
+
+  const handleSuccessTopic = () => {
+    setTimeout(() => {setLoadingTopic(false);setShowTopic(true);}, 10);
+  };
+
 
   //ดูว่ามีการเลือกทั้งหมดหรือไม่
   useEffect(() => {
@@ -39,7 +56,7 @@ export default function Home() {
       setListTopics(new_data);
     }else{
       //ดูว่า list topic ถูกเลือกหมดหรือไม่
-      if (Object.keys(listTopics).every((file: any) => listTopics[file].select === true)) {
+      if (listTopics !== null && Object.keys(listTopics).every((file: any) => listTopics[file].select === true)) {
         
         const new_data: { [key: string]: any } = {}
 
@@ -54,14 +71,13 @@ export default function Home() {
 
   //ตรวจสอบว่า list topic ถูกเลือกหมดหรือไม่
   useEffect(() => {
-    if (Object.keys(listTopics).every((obj: any) => listTopics[obj].select === true)) {
+    if (listTopics !== null && Object.keys(listTopics).every((obj: any) => listTopics[obj].select === true)) {
       if (allSelect === false) {
         setAllSelect(true);
       }
     }else{
       setAllSelect(false);
     }
-
   }, [listTopics]);
 
 
@@ -114,24 +130,25 @@ export default function Home() {
     const data = await loadingData(String(fileName).toLowerCase());
     console.log("Loaded data:", data); // แสดงค่า data ที่โหลดมา
 
-    setDataShowing(data); // ตั้งค่า dataShowing
+    setDataShowing(data.data.list); // ตั้งค่า dataShowing
     if (selectViewListProject === true) {
-      setCacheList(data); // ตั้งค่า data_list
+      setCacheList(data.data.list); // ตั้งค่า data_list
     }else{
-      setDataCache(data); // ตั้งค่า data_cache
+      setDataCache(data.data.list); // ตั้งค่า data_cache
     }
   };
 
   // เมื่อมีการเลือก topic ใหม่
   useEffect(() => {
+    console.log("selectViewListProject:", selectViewListProject); // จะเรียกเมื่อ listTopics อัพเดต
     if (selectViewListProject === false) return;
     if (cache_list === null) return;
-    let filteredDataCache: { [key: string]: any } = {};
+    let filteredDataCache: any = [];
 
     Object.keys(cache_list).forEach((key) => {
       const item = cache_list[key];
-      if (item.topic_id.some((id: any) => listTopics[id] && listTopics[id].select)) {
-        filteredDataCache[key] = item;
+      if (listTopics !== null && item.project_topics.some((t:any) => listTopics[t.id] && listTopics[t.id].select)) {
+        filteredDataCache.push(item);
       }
     });
 
@@ -139,54 +156,73 @@ export default function Home() {
 
     setDataShowing(filteredDataCache); // ตั้งค่า dataShowing ใหม่ โดยกรองข้อมูลจาก data_list 
   }, [listTopics]);
-
   useEffect(() => {
-    console.log("Updated dataShowing:", dataShowing); // จะเรียกเมื่อ dataShowing อัพเดต
-  }, [dataShowing]);
+    if (selectViewListProject === false) return;
+    if (cache_list === null) return;
+    console.log("selectViewListProject:", selectViewListProject); // จะเรียกเมื่อ listTopics อัพเดต
+    let filteredDataCache: any[] = [];
+
+    Object.keys(cache_list).forEach((key) => {
+      const item = cache_list[key];
+      if (listTopics !== null && item.project_topics.some((t: any) => listTopics[t.id] && listTopics[t.id].select)) {
+        filteredDataCache.push(item);
+      }
+    });
+
+    console.log("Filtered data:", filteredDataCache); // แสดงข้อมูลที่กรองแล้ว
+
+    setDataShowing(filteredDataCache); // ตั้งค่า dataShowing ใหม่ โดยกรองข้อมูลจาก data_list 
+  }, [selectViewListProject]);
 
   useEffect(() => {
     const fetchData = async () => {
       if (selectViewListProject === true) {
-        await getData('/data_test/list-project.json');
+        await getData('/api/project');
         console.log('dataShowing', dataShowing);
-      } else {
-        getData(listTopics[selectedFile].title);
       }
     };
     fetchData();
-  }, [selectedFile, selectViewListProject]);
+  },[]);
+
+  // จัดการ loading ของข้อมูล
+  const [dataLoading, setDataLoading] = useState<boolean>(false);
+  const [showingofData, setShowingofData] = useState<boolean>(false);
+  useEffect(() => {
+    if (dataShowing !== null) {
+      setDataLoading(true);
+    }
+  }, [dataShowing]);
+
+  const handleSuccessData = () => {
+    setTimeout(() => {setDataLoading(false);setShowingofData(true);}, 10);
+  };
 
 
   const closeFile = (file: number) => {
     //ถ้าปิดไฟล์ที่กำลังเปิดอยู่ ให้กลับที่ไฟล์ก่อนหน้าที่เปิด
     const list_new = listOpenFile.filter((number) => number !== file);
-    if (selectedFile === file) {
-      const index = listOpenFile.indexOf(file);
+    const index = listOpenFile.indexOf(file);
 
-      if (index >= 0) {
+    if (index >= 0) {
           
-          setlistOpenFile(list_new);
+      setlistOpenFile(list_new);
 
-          // Set the selected file to the next one if available
-          if (index < list_new.length) {
-              setSelectedFile(list_new[index]); // Next file in the list
-          } 
-          // If no next file, set it to the previous one if available
-          else if (index - 1 >= 0) {
-              setSelectedFile(list_new[index - 1]); // Previous file in the list
-          } else {
-              setSelectedFile(0); // No files left
-          }
+      // Set the selected file to the next one if available
+      if (index < list_new.length) {
+        setSelectedFile(list_new[index]); // Next file in the list
+      } 
+      // If no next file, set it to the previous one if available
+      else if (index - 1 >= 0) {
+        setSelectedFile(list_new[index - 1]); // Previous file in the list
+      } else {
+        setSelectedFile(0); // No files left
       }
-    } else {
-        
     }
-
     if (list_new.length === 0) {
       SetToViewListProject();
     }
-    console.log('close file', file);
-    console.log('listOpenFile', listOpenFile);
+    // console.log('close file', file);
+    // console.log('listOpenFile', listOpenFile);
 
 
   }
@@ -202,24 +238,29 @@ export default function Home() {
           <p className='text-[16px] text-white font-extralight leading-4'>../projects</p>
         </div>
 
-        <div className='flex-auto w-full border-r border-[#3F3F3F] h-7 p-4 flex flex-col gap-y-3'>
-          {Object.keys(listTopics).length > 0 ? 
+        <div className='flex-auto w-full border-r border-[#3F3F3F] h-7 p-4'>
+          {showTopic && listTopics !== null && Object.keys(listTopics).length > 0 ? 
           (
-          <>
+          <div className='flex flex-col gap-y-3 blur-to-focus'>
           <label className='flex items-center gap-x-2'>
-            <input type="checkbox" checked={allSelect} onChange={() => setAllSelect(!allSelect)} className="peer w-5 h-5 bg-transparent border border-[#959595] rounded-sm checked:bg-[#959595] focus:ring-0 focus:ring-transparent checked:focus:!bg-[#959595] checked:hover:!bg-[#959595] hover:!bg-transparent" />
+            <input type="checkbox" checked={allSelect} onChange={() => setAllSelect(!allSelect)} className="peer w-5 h-5 bg-transparent border border-[#4D4D4D] rounded-sm checked:bg-[#4D4D4D] focus:ring-0 focus:ring-transparent checked:focus:!bg-[#4D4D4D] checked:hover:!bg-[#4D4D4D] hover:!bg-transparent" />
             <span className="text-[16px] leading-4 text-[#959595] peer-checked:text-white">All Topics</span>
           </label>
             {Object.keys(listTopics).map((obj:any) => (
                 <label key={obj} className='flex items-center gap-x-2'>
-                    <input type="checkbox" checked={listTopics[obj].select} onChange={() => setSelectTopic(obj)} className="peer w-5 h-5 bg-transparent border border-[#959595] rounded-sm checked:bg-[#959595] focus:ring-0 focus:ring-transparent checked:focus:!bg-[#959595] checked:hover:!bg-[#959595] hover:!bg-transparent" />
-                    <span className="text-[16px] leading-4 text-[#959595] peer-checked:text-white">{`${listTopics[obj].title}`}</span>
+                    <input type="checkbox" checked={listTopics[obj].select} onChange={() => setSelectTopic(obj)} className="peer w-5 h-5 bg-transparent border border-[#4D4D4D] rounded-sm checked:bg-[#4D4D4D] focus:ring-0 focus:ring-transparent checked:focus:!bg-[#4D4D4D] checked:hover:!bg-[#4D4D4D] hover:!bg-transparent" />
+                    <span className="text-[16px] leading-4 text-[#959595] peer-checked:text-white">{`${listTopics[obj].name}`}</span>
                 </label>
             ))}
-          </>) 
+          </div>) 
           : (
             <div className='flex items-center justify-center h-full w-full'>
-              <p className='text-[20px] text-[#959595] font-normal'>Loading...</p>
+              <div className='w-[90%] flex flex-col '>
+                <p className='text-[20px] text-[#959595] font-normal'>Loading...</p>
+                <div className='h-4 w-full'>
+                  <LoadingBar isLoading={loadingTopic} successFunc={handleSuccessTopic} />
+                </div>
+              </div>
             </div>
           )}
         
@@ -237,11 +278,11 @@ export default function Home() {
 
 
 
-          {Object.keys(listTopics).length > 0 && (
+          {listTopics !== null && Object.keys(listTopics).length > 0 && (
             <>
             {listOpenFile.map((file, index) => (
               <div key={index} onClick={() => SetFileView(file)} className={file === selectedFile && selectViewListProject === false  ? 'flex-none w-fit h-full border-b-0 border-r border-[#3F3F3F] px-4 flex items-center gap-x-12 cursor-pointer' : 'flex-none w-fit h-full border-b border-r border-[#3F3F3F] px-4 flex items-center gap-x-12 cursor-pointer'}>
-                <p className='text-[14px] text-[#959595] font-normal leading-[14px]'>{cache_list[file].name.replace(/\s+/g,'-').toLowerCase()}.md</p>
+                <p className='text-[14px] text-[#959595] font-normal leading-[14px]'>{cache_list[file-1].name.replace(/\s+/g,'-').toLowerCase()}.md</p>
                 <button title='d' tabIndex={5} onClick={(event) => { event.stopPropagation(); closeFile(file) }}>
                   <FrontawesomeIcon icon='fa-solid fa-xmark' className='text-[20px] text-[#959595] hover:text-white' />
                 </button>
@@ -263,25 +304,26 @@ export default function Home() {
             <div className=' h-full max-h-full overflow-y-auto'>
               {selectViewListProject === true ? (
                 <>
-                {dataShowing !== null && Array.isArray(Object.keys(dataShowing)) ? (
-                <div className='grid grid-cols-12 gap-x-10 gap-y-8 grid-flow-row p-4'>
-                    {Object.keys(dataShowing).map((obj:string) => (
-                      <div key={obj} className='col-span-4 flex flex-col h-auto  rounded-lg overflow-hidden'>
+                {showingofData && listTopics !== null && dataShowing !== null ? (
+                <div className='grid grid-cols-12 gap-x-10 gap-y-8 grid-flow-row p-4 blur-to-focus'>
+                    {dataShowing.map((item:any,index:any) => (
+                      <div key={index} className='col-span-4 flex flex-col h-auto  rounded-lg overflow-hidden'>
                         <div className='px-1 w-full flex items-center mb-2 gap-x-2'>
                           <p className='text-[16px] leading-4 text-[#959595] font-normal'>//</p>
-                          {dataShowing[obj].topic_id.map((tag: number,index:number) => (
-                            <p key={index} className='text-[16px] leading-4 text-[#959595] font-normal'>{listTopics[tag].title};</p>
+                          
+                          {item.project_topics.map((topic:any ,index:number) => (
+                            <p key={index} className='text-[16px] leading-4 text-[#959595] font-normal'>{topic.name};</p>
                           ))}
                         </div>
                         
-                        <div key={obj} className='w-full h-full flex flex-col border border-[#4D4D4D] rounded-lg overflow-hidden'>
+                        <div key={index} className='w-full h-full flex flex-col border border-[#4D4D4D] rounded-lg overflow-hidden'>
                           <div className='w-full h-[70%]'>
-                          <Image src={dataShowing[obj].banner_img} width={500} height={350} alt={dataShowing[obj].name} className='object-cover h-[100%] w-full' />
+                          <Image src={item.img_banner} width={500} height={350} alt={item.name} className='object-cover h-[100%] w-full' />
                           </div>
                           <div className='h-[30%] flex py-5 px-4 items-center justify-between border-t border-[#4D4D4D] bg-[#1B1B1B]'>
-                              <p className='xl:text-[18px] 2xl:text-[20px] text-[#E2E2E2] font-normal w-fit leading-8'>{dataShowing[obj].name}</p>
-                              <button title='go' onClick={()=> addFileSelected(dataShowing[obj].id)}>
-                                <FrontawesomeIcon icon='fa-solid fa-arrow-right-from-bracket' className='xl:text-[18px] 2xl:text-[20px] text-[#959595] -rotate-45' />
+                              <p className='xl:text-[18px] 2xl:text-[20px] text-[#E2E2E2] font-normal w-fit leading-8'>{item.name}</p>
+                              <button title={'Open About : '+item.name} onClick={()=> addFileSelected(item.id)}>
+                                <FrontawesomeIcon icon='fa-solid fa-arrow-right-from-bracket' className='xl:text-[18px] 2xl:text-[20px] text-[#959595] hover:text-[#E2E2E2] active:text-[#E2E2E2] -rotate-45' />
                               </button>
                           </div>
                         </div>
@@ -291,28 +333,19 @@ export default function Home() {
                 </div>
                 ) : (
                   <div className='col-span-12 flex items-center justify-center h-full w-full'>
-                    <p className='text-[20px] text-[#959595] font-normal'>Loading...</p>
+                    <div className='w-[30%] flex flex-col'>
+                      <p className='text-[20px] text-[#959595] font-normal text-center'>Loading...</p>
+                      <div className='h-4 w-full'>
+                        <LoadingBar isLoading={dataLoading} successFunc={handleSuccessData} />
+                      </div>
+                    </div>
                   </div>
                 )}
                 </>
               ):(
                 <>
-                  <div className='col-span-12 flex divide-x divide-[#3F3F3F] h-full'>
-                    <div className='w-[60%] 2xl:w-[55%] h-full pt-4 px-4'>
-                      <div className='flex flex-col w-[90%]'>
-                        <p className='text-[24px] text-[#E2E2E2] font-medium w-fit leading-6'>Project Name</p>                      
-                        <div className='w-full h-px bg-[#4D4D4D] my-2'></div>
-                      </div>
-
-                      <div className='flex flex-col w-[90%]'>
-                        <p className='text-[20px] text-[#E2E2E2] font-medium w-fit leading-6'>Feature</p>                      
-                        <div className='w-full h-px bg-[#4D4D4D] my-2'></div>
-                      </div>
-
-                    </div>
-                    <div className='w-[40%] 2xl:w-[45%] h-full pt-4 px-4'>
-
-                    </div>
+                  <div className='col-span-12 h-full'>
+                    <ProjectDetail projectID={selectedFile} />
                   </div>
                 </>
               )}
