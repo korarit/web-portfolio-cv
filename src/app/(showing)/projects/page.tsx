@@ -7,7 +7,6 @@ import FrontawesomeIcon from '@/components/FrontawesomeIcon';
 import LoadingBar from '@/components/LoadingBar';
 import ProjectDetail from '@/components/ProjectDetail';
 
-
 export default function Home() {
 
   const [allSelect, setAllSelect] = useState<boolean>(true);
