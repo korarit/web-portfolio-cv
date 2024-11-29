@@ -14,132 +14,136 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  username  String
-  password  String
+  id                 Int                 @id @default(autoincrement())
+  username           String
+  password           String
   thrid_party_logins thrid_party_login[]
-  user_logins user_login[]
+  user_logins        user_login[]
 }
 
 model thrid_party_login {
-  id        Int      @id @default(autoincrement())
-  token  String
+  id       Int    @id @default(autoincrement())
+  token    String
   platform String
-  author      User     @relation(fields: [user_id], references: [id])
-  user_id   Int
+  author   User   @relation(fields: [user_id], references: [id])
+  user_id  Int
 }
 
 model user_login {
-  id        Int      @id @default(autoincrement())
-  user      User     @relation(fields: [user_id], references: [id])
-  user_id   Int
-  token     String
+  id         Int      @id @default(autoincrement())
+  user       User     @relation(fields: [user_id], references: [id])
+  user_id    Int
+  token      String
   login_time DateTime @default(now())
   login_ip   String
 }
 
 model certificate {
-  id       Int      @id @default(autoincrement())
-  name      String
+  id       Int     @id @default(autoincrement())
+  name     String
   img_path String
-  link      String?
+  link     String?
 }
 
 model contact_me {
-  id       Int      @id @default(autoincrement())
-  name      String?
-  icon      String
-  link      String
+  id           Int     @id @default(autoincrement())
+  name         String?
+  icon         String
+  link         String
+  social       Boolean @default(false)
+  show_project Boolean @default(false)
 }
 
 model about_me {
-  id       Int      @id @default(autoincrement())
-  name      String
-  description String
+  id          Int    @id @default(autoincrement())
+  name        String
+  description String @db.Text
 }
 
 model blog_topic {
-  id       Int      @id @default(autoincrement())
-  name      String
+  id    Int    @id @default(autoincrement())
+  name  String
   blogs blog[]
 }
 
 model blog {
-  id       Int      @id @default(autoincrement())
+  id Int @id @default(autoincrement())
 
-  name      String
-  link      String?
+  name       String
+  link       String?
   img_banner String?
   view_count Int?
 
   blog_topics blog_topic[]
 
-  created_at DateTime?
-  updated_at DateTime @default(now())
+  updated_at DateTime? @default(now())
+  created_at DateTime  @default(now())
 }
 
-
 model skill_topic {
-  id       Int      @id @default(autoincrement())
-  name      String
+  id     Int     @id @default(autoincrement())
+  name   String
   skills skill[]
 }
 
 model skill {
-  id       Int      @id @default(autoincrement())
+  id          Int         @id @default(autoincrement())
   skill_topic skill_topic @relation(fields: [topic_id], references: [id])
-  topic_id Int
-  name      String
-  img_path String?
+  topic_id    Int
+  name        String
+  img_path    String?
 }
-
-
 
 model project_topic {
-  id       Int      @id @default(autoincrement())
-  name      String
+  id       Int       @id @default(autoincrement())
+  name     String
   projects project[]
 }
+
 model project {
-  id       Int      @id @default(autoincrement())
-  name      String
-  description String
-  youtube_link String?
-  img_banner String?
+  id           Int     @id @default(autoincrement())
+  name         String
+  description  String @db.Text
   
+  github_link  String?
+  preview_link String?
+  youtube_link String?
+
+  img_banner   String
+
   project_features project_feature[]
-  project_stacks project_stack[]
-  project_imgs project_img[]
-  project_topics project_topic[]
+  project_stacks   project_stack[]
+  project_imgs     project_img[]
+  project_topics   project_topic[]
 
+  updated_at DateTime? @default(now())
   created_at DateTime @default(now())
-  updated_at DateTime @default(now())
-
 }
-model project_feature {
-  id       Int      @id @default(autoincrement())
 
-  project project @relation(fields: [project_id], references: [id], onDelete: Cascade)
+model project_feature {
+  id Int @id @default(autoincrement())
+
+  project    project @relation(fields: [project_id], references: [id], onDelete: Cascade)
   project_id Int
 
-  name String
+  name    String
   success Boolean @default(true)
 }
 
 model project_stack {
-  id       Int      @id @default(autoincrement())
+  id Int @id @default(autoincrement())
 
-  project project @relation(fields: [project_id], references: [id], onDelete: Cascade)
+  project    project @relation(fields: [project_id], references: [id], onDelete: Cascade)
   project_id Int
 
-  name      String
+  name     String
   img_path String?
 }
 
 model project_img {
-  id       Int      @id @default(autoincrement())
+  id Int @id @default(autoincrement())
 
-  project project @relation(fields: [project_id], references: [id], onDelete: Cascade)
+  project    project @relation(fields: [project_id], references: [id], onDelete: Cascade)
   project_id Int
 
   img_path String
