@@ -4,17 +4,18 @@ import { uploadToR2 } from '@/lib/cloudflare'
 
 const prisma = new PrismaClient()
 
-export default async function addFeature(ProjectId: number,name: string|null|undefined, success: boolean|null|undefined): Promise<[number, {success: boolean, message: string, error?: any}]> {
+export default async function addFeature(ProjectId: number,name: string|null|undefined, success: string|null|undefined): Promise<[number, {success: boolean, message: string, error?: any}]> {
     try{
         
-        if (!name || !success) {
+        if (!name) {
             return [400, {success: false, message: 'name and success are required'}]
         }
 
         // check type of name , success
-        if (typeof name !== 'string' || typeof success !== 'boolean') {
+        if (typeof name !== 'string' || typeof success !== 'string') {
             return [400, {success: false, message: 'invalid type for name or success'}]
         }
+
 
         const hasProject = await prisma.project.findFirst({
             select:{
@@ -37,7 +38,7 @@ export default async function addFeature(ProjectId: number,name: string|null|und
                 success: success_bool,
                 project: {
                     connect: {
-                        id: ProjectId
+                        id: parseInt(ProjectId.toString())
                     }
                 }
             }
