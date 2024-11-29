@@ -1,30 +1,19 @@
-'use client';
 import Link from 'next/link';
 import Image from 'next/image'
 
-import { useState , useEffect } from 'react';
 
-import { TypeAnimation } from 'react-type-animation';
 
 import FrontawesomeIcon from '@/components/FrontawesomeIcon';
-
+import TypeAnimationComponent from '@/components/TypeAnimation';
 
 import blueblur from '@/assets/bg/blue-blur.svg'
 import greenblur from '@/assets/bg/green-blur.svg'
 
-export default function Home() {
+export default async function Home() {
+  const getContact = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/contact_at?project=true`)
+  const GetJson = await getContact.json()
+  const listSeeProject: any[] = await GetJson.data.list
 
-  const [listSeeProject, setSeeProject] = useState<any[]>([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const getContact = await fetch('/api/contact_at?project=true')
-      const GetJson = await getContact.json()
-      console.log(GetJson)
-      setSeeProject(GetJson.data.list)
-    }
-    fetchData()
-  }, [])
   return (
     <>
     <div className="flex items-center justify-center h-full w-full">
@@ -39,28 +28,13 @@ export default function Home() {
 
             <div className="flex items-center gap-x-4">
               <FrontawesomeIcon icon="fa-solid fa-chevron-right" className='text-[28px] text-[#4D5BCE]' />
-              <TypeAnimation
-                  sequence={[
-                    // Same substring at the start will only be typed once, initially
-                    'Software Engineer',
-                    5000,
-                    'Full-Stack Developer',
-                    3000,
-                    'Back-End Developer',
-                    3000,
-                    'Front-End Developer',
-                    3000,
-                  ]}
-                  speed={50}
-                  className='text-[24px] font-normal text-[#4D5BCE] leading-6'
-                  repeat={Infinity}
-                />
+              <TypeAnimationComponent />
             </div>
           </div>
 
           <div className="h-fit w-fit flex flex-col gap-y-2">
             <p className="text-[16px] font-normal text-[#959595] leading-4">// you can also see my projects on</p>
-            {listSeeProject.map((item: { name: string; link: string; icon: string; }, index:number) => (
+            {listSeeProject?.map((item: { name: string; link: string; icon: string; }, index:number) => (
               <p className="text-[16px] font-normal leading-4" key={index}>
                 <span className='text-[#4D5BCE]'>const</span>&nbsp;
                 <span className='text-[#3499e1]'>{item.name}</span>
