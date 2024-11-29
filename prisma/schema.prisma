@@ -57,7 +57,7 @@ model contact_me {
 model about_me {
   id          Int    @id @default(autoincrement())
   name        String
-  description String
+  description String @db.Text
 }
 
 model blog_topic {
@@ -103,9 +103,13 @@ model project_topic {
 model project {
   id           Int     @id @default(autoincrement())
   name         String
-  description  String
+  description  String @db.Text
+  
+  github_link  String?
+  preview_link String?
   youtube_link String?
-  img_banner   String?
+
+  img_banner   String
 
   project_features project_feature[]
   project_stacks   project_stack[]
