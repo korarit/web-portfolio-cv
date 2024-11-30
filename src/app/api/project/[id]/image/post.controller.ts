@@ -53,7 +53,7 @@ export default async function addImg(
             const img_path = await uploadToR2(file[i], 'project_img', file_name)
 
             list_data.push({
-                project_id: ProjectId,
+                project_id: parseInt(ProjectId.toString()),
                 img_path: img_path
             })
         }

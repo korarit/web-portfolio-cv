@@ -1,6 +1,5 @@
-import Link from 'next/link'
+import type { Metadata } from 'next'
 
-import FrontawesomeIcon from '@/components/FrontawesomeIcon';
 
 import Navbar from '@/components/navbar';
 import Footer from '@/components/footer';
@@ -8,7 +7,20 @@ import Footer from '@/components/footer';
 
 import '@/app/globals.css';
 
-
+export const metadata: Metadata = {
+    title: 'Korarit - Portfolio',
+    description: 'Korarit\'s Portfolio Website - Hello',
+    openGraph: {
+        type: 'website',
+        url: 'https://cv.korarit.website/projects',
+        title: 'Korarit - Portfolio',
+        description: 'Korarit\'s Portfolio Website - Hello',
+    },
+    authors: [{
+        name: 'Korarit Saengthong',
+        url: 'https://cv.korarit.website'
+    }],
+}
 
 export default function Layout({children}: Readonly<{children: React.ReactNode;}>) {
     return (

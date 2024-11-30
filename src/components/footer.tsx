@@ -1,24 +1,15 @@
-"use client";
 
 import Link from "next/link";
 import FrontawesomeIcon from '@/components/FrontawesomeIcon';
 
 
-import { useState , useEffect } from "react";
 
-export default function Footer() {
+export default async function Footer() {
 
   
-  const [data, setData] = useState<any[]>([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const getContact = await fetch('/api/contact_at')
-      const GetJson = await getContact.json()
-      setData(GetJson.data.list_contact)
-    }
-    fetchData()
-  }, [])
+  const getContact = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/contact_at?social=true`)
+  const GetJson = await getContact.json()
+  const data = GetJson.data.list
 
   return (
     <>
