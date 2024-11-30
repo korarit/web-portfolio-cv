@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     description: 'Korarit\'s Portfolio Website - My List of Tech Skills',
     openGraph: {
         type: 'website',
-        url: 'https://cv.korarit.website/skills',
+        url: 'https://cv.korarit.website/skill',
         title: 'Korarit - Project',
         description: 'Korarit\'s Portfolio Website - My List of Tech Skills',
     },

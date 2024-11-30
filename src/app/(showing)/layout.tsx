@@ -12,14 +12,15 @@ export const metadata: Metadata = {
     description: 'Korarit\'s Portfolio Website - Hello',
     openGraph: {
         type: 'website',
-        url: 'https://cv.korarit.website/projects',
+        url: 'https://cv.korarit.website',
         title: 'Korarit - Portfolio',
-        images: {
+
+        images: [{
             url: 'https://pub-f562933a06224aeda971ebad86c0aea5.r2.dev/preview/preview-home.png',
             width: 1440,
             height: 1024,
             alt: 'Korarit - Portfolio'
-        },
+        }],
         description: 'Korarit\'s Portfolio Website - Hello',
     },
     authors: [{
