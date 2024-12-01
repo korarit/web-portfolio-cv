@@ -1,4 +1,5 @@
-import type { Metadata ,ResolvingMetadata } from 'next'
+import type { Metadata } from 'next'
+import { Suspense } from 'react';
 
 
 import MainPage from './compunents/MainPage';
@@ -7,11 +8,10 @@ import MainPage from './compunents/MainPage';
 import '@/app/globals.css';
 
 
-type Props = {
-  params: Promise<{ id: string }>
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+interface Props {
+    params: Promise<{ id: string }>
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
-
 
 export async function generateMetadata({ params, searchParams }:Props) : Promise<Metadata> {
         const project_id  = (await searchParams)?.project_id || null;
@@ -75,6 +75,8 @@ export async function generateMetadata({ params, searchParams }:Props) : Promise
 }
 export default function Home() {
     return (
+        <Suspense fallback={<div>Loading...</div>}>
         <MainPage />
+        </Suspense>
     );
 }
