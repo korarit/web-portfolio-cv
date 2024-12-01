@@ -1,36 +1,26 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# Korarit - Website Portfolio
 
-First, run the development server:
+The Website for showing me history , skill , project and blog
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+[**DEMO WEBISTE**](https://cv.korarit.website/)
+## Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- [x] Showing Wellcome to Website
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- [ ] Showing About Me
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- [x] Showing list of skill by topic
 
-## Learn More
+- [x] Showing list of project , about a project and has Project topic
 
-To learn more about Next.js, take a look at the following resources:
+- [x] Showing list of me pubilc blog
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [x] Website is support SEO
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- [x] Has API for CRUD Database of skill , blog , about me and project
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Tech Stack
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+![Tech Stack](https://go-skill-icons.vercel.app/api/icons?i=typescript,nextjs,prisma,mariadb,tailwindcss,css,figma,discord,github,cloudflare,vercel&theme=dark&perline=11)
