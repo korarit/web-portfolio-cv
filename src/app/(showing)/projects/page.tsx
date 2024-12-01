@@ -324,7 +324,7 @@ export default function Home() {
                           <div className='h-[30%] flex py-5 px-4 items-center justify-between border-t border-[#4D4D4D] bg-[#1B1B1B]'>
                               <p className='xl:text-[18px] 2xl:text-[20px] text-[#E2E2E2] font-normal w-fit leading-8'>{item.name}</p>
                               <button title={'Open About : '+item.name} onClick={()=> addFileSelected(item.id)}>
-                                <FrontawesomeIcon icon='fa-solid fa-arrow-right-from-bracket' className='xl:text-[18px] 2xl:text-[20px] text-[#959595] hover:text-[#E2E2E2] active:text-[#E2E2E2] -rotate-45' />
+                                <FrontawesomeIcon icon='fa-solid fa-arrow-right-from-bracket' className='xl:text-[18px] 2xl:text-[20px] text-[#959595] hover:text-[#E2E2E2] active:text-[#E2E2E2] transition -rotate-45' />
                               </button>
                           </div>
                         </div>
