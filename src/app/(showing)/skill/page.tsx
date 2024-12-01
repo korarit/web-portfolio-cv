@@ -181,14 +181,14 @@ export default function Home() {
                       <div className='w-full h-px bg-[#4D4D4D] my-3'></div>
 
                       <div className='grid grid-cols-10'>
-                        <div className='col-start-2 col-span-8 grid grid-cols-9 gap-x-4 gap-y-5'>
+                        <div className='col-start-2 col-span-8 grid grid-cols-10 gap-x-4 gap-y-5'>
                         {skill.skills.map((item: any, index: number) => (
-                          <div key={index} className='group col-span-1 w-full relative flex flex-col overflow-hidden rounded-lg bg-[#FFFEF7]'>
-                            <div className='w-full h-auto'>
+                          <div key={index} className='group col-span-2 w-full p-1 flex gap-x-3 overflow-hidden rounded-lg bg-[#1514146d] border border-[#3e3e3e] hover:border-[#878787] hover:bg-[#121212a0] transition  backdrop-blur-md'>
+                            <div className='w-[30%] h-auto bg-[#f8f8f4] rounded-md overflow-hidden'>
                               <Image src={item.img_path} width={79} height={79} alt={item.name} className='object-cover object-center w-full h-full' />
                             </div>
-                            <div className='absolute bottom-0 left-0 w-full z-50 px-1 bg-black/60 h-0 group-hover:h-[32px] transition-[height] duration-300 ease-in-out flex items-center  overflow-hidden'>
-                              <p className='text-[12px] select-none text-[#ffffff] font-normal leading-[14px] text-nowrap'>{item.name}</p>
+                            <div className='w-[70%] h-full flex items-center'>
+                              <p className='xl:text-[12px] 2xl:text-[16px] select-none text-[#ffffff] font-normal leading-[14px] text-nowrap'>{item.name}</p>
                             </div>
                           </div>
                         ))}
