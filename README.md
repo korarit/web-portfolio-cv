@@ -4,6 +4,8 @@
 The Website for showing me history , skill , project and blog
 
 [**DEMO WEBISTE**](https://cv.korarit.website/)
+
+**Source Code is copyrighted by** **Korarit Saengthong**[https://github.com/korarit]
 ## Features
 
 - [x] Showing Wellcome to Website
