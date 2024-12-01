@@ -24,18 +24,13 @@ export async function addSkillToTopic(
         const file = icon
 
         
-        //check icon is svg
-        if (file.type !== 'image/svg+xml') {
-            return [400,{success: false, message: 'icon must be svg'}]
+        //check icon is not webp
+        if (file.type !== 'image/webp') {
+            return [400, { success: false, message: 'icon must be webp' }];
         }
 
-        //get icon extension
-        const icon_ext = file.name.split('.')[-1]
-        if (icon_ext !== 'svg') {
-            return [400,{success: false, message: 'icon must be svg'}]
-        }
 
-        const file_name = `${uuidv7()}.${icon_ext}`
+        const file_name = `${uuidv7()}.webp`
 
         //upload icon
         const icon_url = await uploadToR2(file, 'skill', file_name)
