@@ -7,6 +7,8 @@ The Website for showing me history , skill , project and blog
 
 **Source Code is copyrighted by** [**Korarit Saengthong**](https://github.com/korarit)
 
+[![wakatime](https://wakatime.com/badge/user/506ed78e-7b93-4e6a-a554-bdf9ef319e25/project/58030137-a8df-4029-b0e2-16f3313d4b79.svg)](https://wakatime.com/badge/user/506ed78e-7b93-4e6a-a554-bdf9ef319e25/project/58030137-a8df-4029-b0e2-16f3313d4b79)
+
 ## Features
 
 - [x] Showing Wellcome to Website
