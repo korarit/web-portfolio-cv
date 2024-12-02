@@ -304,10 +304,10 @@ export default function Home() {
 
                 <div className='group w-1/2 p-4 flex flex-col gap-y-6 rounded-md border border-[#3e3e3e] hover:border-[#878787] bg-[#1514146d] hover:bg-[#121212a0] transition  backdrop-blur-md'>
                   <div className='w-full flex items-center gap-x-4'>
-                    <div className='w-[10%]'>
+                    <div className='w-[13%]'>
                       <Image src="/img/logo-school-sw.png" height={200} width={200} alt="Korarit" className='object-cover object-center w-full h-auto rounded-full' />
                     </div>
-                    <div className='w-[90%] flex flex-col'>
+                    <div className='w-[75%] flex flex-col'>
                       <p className='text-[28px] text-[#E2E2E2] font-normal w-fit leading-8'>แผนการเรียนศิลป-คำนวณ</p>
                       <p className='text-[16px] text-[#b0b0b0] font-normal'>โรงเรียนสรรค์อนันต์วิทยา จ.สุโขทัย</p>
                     </div>
