@@ -13,7 +13,7 @@ The Website for showing me history , skill , project and blog
 
 - [x] Showing Wellcome to Website
 
-- [ ] Showing About Me
+- [x] Showing About Me
 
 - [x] Showing list of skill by topic
 
