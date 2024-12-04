@@ -105,7 +105,7 @@ export default function Home() {
 
           {/* timeline of me */}
           <section ref={timelineRef} id="timeline" className='flex-none w-full flex justify-center min-h-full'>
-          <div className='w-[95%] 2x:w-[80%]'>
+          <div className='w-[95%] 2xl:w-[85%]'>
 
             <p className="text-[28px] font-medium text-white leading-12 my-2">Timeline ของจุดเริ่มของสู่เส้นทาง Developer</p>
 
@@ -273,7 +273,7 @@ export default function Home() {
 
           {/* section การศึกษา educaton */}
           <section ref={educationRef} className='flex-none w-full h-fit flex justify-center'>
-            <div className='w-[95%] 2xl:w-[80%]'>
+            <div className='w-[95%] 2xl:w-[85%]'>
 
               <p className="text-[28px] font-medium text-white leading-12 my-2">การศึกษา</p>
 
