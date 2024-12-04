@@ -70,15 +70,15 @@ export default function Home() {
           {/* fact of me*/}
           <section ref={aboutRef} className='flex-none w-full h-full relative'>
             <div className='w-full h-full flex items-center justify-center'>
-              <div className='w-[30%] p-9 h-full flex items-center justify-end'>
+              <div className='w-[30%] p-6 2xl:p-9 h-full flex items-center justify-end'>
               <Image src="/img/me-profile.jpg" height={500} width={350} alt="Korarit" className='object-cover object-center w-full h-auto rounded-xl' />
               </div>
-              <div className='w-[55%] h-full p-9 flex items-center'>
+              <div className='w-[65%] 2xl:w-[55%] h-full p-6 2xl:p-9 flex items-center'>
                 <div className=' h-fit'>
                   <p className="text-[16px] font-normal text-white leading-4">Hi All. I am Korarit</p>
                   <p className="text-[28px] font-normal text-white leading-12">จากเด็กที่หาทางเล่นเกม สู่เส้นทาง Developer</p>
 
-                  <p className="text-[18px] font-normal text-[#b0b0b0] leading-5">
+                  <p className="xl:text-base 2xl:text-[18px] font-normal text-[#b0b0b0] leading-5">
                     จุดเริ่มต้นของผม มาจากสมัยช่วงประมาณ ป. 2-3 ผมติด Youtuber Notebook ของผมในตอนนั้น Spec มันก็ไม่ดีเท่าไหร่โหลด Minecraft 
                     มาเล่นได้แล้ว FPS 10 Frame ซึ่งมันเล่นไม่ไหวเลยเลยเริ่มศึกษาหาทาง Setting ให้ Windows XP เล่นเกมได้ลื่นขึ้นแต่ก็ยังเล่นไม่ไหวอยู่ดี 55555 
                     ก็เลยสนใจด้านคอมพิวเตอร์มากขึ้น ศึกษาไปหลาย ๆ เรื่องในตอนนั้นจุดใกล้เคียง Devlopper ในตอนนั้นประถมคือทำเว็บไซต์ด้วย google site 
@@ -87,7 +87,7 @@ export default function Home() {
 
                   {/* blockquote */}
                   <blockquote className="p-4 my-4 border-l-4 border-[#9595958c]">
-                      <p className="text-[18px] font-medium text-[#959595]">
+                      <p className="xl:text-base 2xl:text-[18px] font-medium text-[#959595]">
                         ช่วงประถมผมค้นหาตัวเองหลายอย่าง ทำ Youtube แคสเกม,ประกวดร้องเพลง,แข่งทำหนังสั้น แต่รู้ว่าสิ่งที่ถนัดมักเกี่ยวกับคอมพิวเตอร์
                         ช่วงประถมตอนปลาย กับ มัธยม ผมเหมือน IT Support ยังไงก็ไม่รู้อาจจะเพราะเรียกใช้ง่ายมั้ง ไม่ต้องเกรงใจ ไม่ว่าจะเป็นเพื่อนหรือครู
                       </p>
@@ -105,7 +105,7 @@ export default function Home() {
 
           {/* timeline of me */}
           <section ref={timelineRef} id="timeline" className='flex-none w-full flex justify-center min-h-full'>
-          <div className='w-[80%]'>
+          <div className='w-[95%] 2x:w-[80%]'>
 
             <p className="text-[28px] font-medium text-white leading-12 my-2">Timeline ของจุดเริ่มของสู่เส้นทาง Developer</p>
 
@@ -273,7 +273,7 @@ export default function Home() {
 
           {/* section การศึกษา educaton */}
           <section ref={educationRef} className='flex-none w-full h-fit flex justify-center'>
-            <div className='w-[80%]'>
+            <div className='w-[95%] 2xl:w-[80%]'>
 
               <p className="text-[28px] font-medium text-white leading-12 my-2">การศึกษา</p>
 
