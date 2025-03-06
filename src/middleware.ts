@@ -9,6 +9,15 @@ export async function middleware(req: NextRequest) {
     const method = req.method;
 
     if (method === 'POST' || method === 'PUT' || method === 'DELETE' || method === 'PATCH') {
+
+        await sendLog({
+            Title: "Method Error",
+            route: url.pathname,
+            Status: "fail",
+            IP: req.headers.get('x-real-ip') ?? undefined,
+            Type: "request"
+        }) // ส่งข้อมูลไป Discord
+
         // ตรวจสอบว่ามีการส่ง token มาหรือไม่
         if (!req.headers.get('Authorization')){
             await sendLog({
