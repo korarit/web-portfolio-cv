@@ -3,6 +3,7 @@ import type { NextRequest } from 'next/server';
 
 
 import sendLog from '@/lib/discord';
+import realIP from '@/lib/getIP';
 
 export async function middleware(req: NextRequest) {
     const url = req.nextUrl;
@@ -14,7 +15,7 @@ export async function middleware(req: NextRequest) {
             Title: "Method Error",
             route: url.pathname,
             Status: "fail",
-            IP: req.headers.get('x-real-ip') ?? undefined,
+            IP: realIP(req) ?? undefined,
             Type: "request"
         }) // ส่งข้อมูลไป Discord
 
