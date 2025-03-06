@@ -91,7 +91,7 @@ interface Log {
     Title: string
     Status: ("pass"|"fail"|"error")
     route: string
-    Type: ("error"|"protect"|"edit")
+    Type: ("error"|"protect"|"edit"|"request")
     IP?: string
     Des?: string
 }
@@ -105,6 +105,8 @@ export default async function sendLog ({Title, Status, Type, route, IP, Des}: Lo
         webhook = process.env.DISCORD_WEBHOOK_PROTECT || ""
     } else if (Type === "error"){
         webhook = process.env.DISCORD_WEBHOOK_ERROR || ""
+    } else if (Type === "request"){
+        webhook = process.env.DISCORD_WEBHOOK_REQUEST || ""
     }
 
     if (webhook === ""){
