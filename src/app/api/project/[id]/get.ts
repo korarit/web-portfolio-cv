@@ -1,3 +1,4 @@
+import sendLog from '@/lib/discord'
 import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
@@ -51,6 +52,13 @@ export default async function GetProject(ProjectId: number): Promise<[number, {s
 
         return [200, {success: true, message: 'project data fetched successfully', data: data}]
     } catch (error) {
+        await sendLog({
+            Title: "Get Project Error",
+            route: '[GET] /project/[id]',
+            Status: "error",
+            Des: (error as Error).message,
+            Type: "error"
+        })
         throw error
     }
 }

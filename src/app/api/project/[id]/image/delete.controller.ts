@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import { deleteFromR2 } from '@/lib/cloudflare'
+import sendLog from '@/lib/discord'
 
 const prisma = new PrismaClient()
 
@@ -35,6 +36,14 @@ export default async function deleteImg(ProjectId: number, ImgID:number|null|und
         }
 
         await deleteFromR2(hasProject.img_path)
+
+        await sendLog({
+            Title: "Delete Img",
+            route: '[DELETE] /project/[id]/image/[img_id]',
+            Status: "pass",
+            Type: "edit",
+            Des: `img deleted successfully with id : ${ImgID}`
+        })
 
         return [200, {success: true, message: 'img deleted'}]
     }

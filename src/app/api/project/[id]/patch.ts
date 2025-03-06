@@ -2,6 +2,8 @@ import { PrismaClient } from '@prisma/client'
 import {v7 as uuidv7} from 'uuid'
 import { uploadToR2 } from '@/lib/cloudflare'
 
+import sendLog from '@/lib/discord'
+
 const prisma = new PrismaClient()
 
 export default async function updateProject(
@@ -96,6 +98,13 @@ export default async function updateProject(
         return [200,{success: true, message: 'skill topic patch successfully', data: result}]
     }catch (error) {
         console.log(error)
+        await sendLog({
+            Title: "Update Project Error",
+            route: '/project/[id]/patch',
+            Status: "error",
+            Type: "error",
+            Des: (error as Error).message
+        })
         throw error
     }
 }

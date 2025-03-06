@@ -1,5 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 
+import sendLog from '@/lib/discord'
+
 const prisma = new PrismaClient()
 
 export async function GetSkill() {
@@ -19,6 +21,15 @@ export async function GetSkill() {
     }), count : data.length}
 
     } catch (error) {
+
+        await sendLog({
+            Title: "Get List Skill Error",
+            route: '/skill/get',
+            Status: "error",
+            Des: (error as Error).message,
+            Type: "error"
+        })
+
         throw error
     }
 }

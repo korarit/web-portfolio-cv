@@ -1,3 +1,4 @@
+import sendLog from '@/lib/discord'
 import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
@@ -26,8 +27,25 @@ export default async function addContactDB(name: string, link: string, icon: str
         //get id
         const id = result.id
 
+        await sendLog({
+            Title: "Add Contact",
+            route: '[POST] /contact_at',
+            Status: "pass",
+            Type: "edit",
+            Des: `contact ${result.name} added successfully`
+        })
+
         return {success: true, message: 'contact added successfully', data: {id: id}}
     } catch (error) {
+
+        await sendLog({
+            Title: "Add Contact Error",
+            route: '[POST] /contact_at',
+            Status: "error",
+            Type: "error",
+            Des: (error as Error).message
+        })
+
         throw error
     }
 }

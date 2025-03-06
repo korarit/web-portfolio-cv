@@ -2,6 +2,8 @@ import { PrismaClient } from '@prisma/client'
 import {v7 as uuidv7} from 'uuid'
 import { uploadToR2 } from '@/lib/cloudflare'
 
+import sendLog from '@/lib/discord'
+
 const prisma = new PrismaClient()
 
 export default async function addImg(
@@ -64,6 +66,14 @@ export default async function addImg(
         })
 
         console.log(result)
+
+        await sendLog({
+            Title: "Add Project Image",
+            route: '[POST] /project/[id]/image',
+            Status: "pass",
+            Type: "edit",
+            Des: `project image added successfully`
+        })
 
         return [200,{success: true, message: 'skill topic patch successfully', data: result}]
     }catch (error) {
