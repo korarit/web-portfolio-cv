@@ -12,9 +12,9 @@ export async function middleware(req: NextRequest) {
     if (method === 'POST' || method === 'PUT' || method === 'DELETE' || method === 'PATCH') {
 
         await sendLog({
-            Title: "Method Error",
+            Title: "Request Edit Data",
             route: url.pathname,
-            Status: "fail",
+            Status: "pass",
             IP: realIP(req) ?? undefined,
             Type: "request"
         }) // ส่งข้อมูลไป Discord

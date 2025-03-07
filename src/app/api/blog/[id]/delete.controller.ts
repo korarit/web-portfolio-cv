@@ -7,7 +7,7 @@ export default async function DeleteBlog(id: number): Promise<[number, any]> {
     try {
         const blog = await prisma.blog.findFirst({
             where: {
-                id: id
+                id: parseInt(id.toString())
             }
         })
 
@@ -17,7 +17,7 @@ export default async function DeleteBlog(id: number): Promise<[number, any]> {
 
         await prisma.blog.delete({
             where: {
-                id: id
+                id: parseInt(id.toString())
             }
         })
 
