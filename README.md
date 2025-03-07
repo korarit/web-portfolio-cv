@@ -25,7 +25,7 @@ The Website for showing me history , skill , project and blog
 
 - [x] Has API for CRUD Database of skill , blog , about me and project
 
-- [ ] API Has Discord Webhook Logging
+- [x] API Has Discord Webhook Logging
 
 ## Tech Stack
 
