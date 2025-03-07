@@ -1,5 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 
+import sendLog from '@/lib/discord'
+
 const prisma = new PrismaClient()
 
 export default async function addTopic(name:string|null|undefined): Promise<[boolean, number, {success: boolean, message: string, data?: any}]> {
@@ -27,8 +29,24 @@ export default async function addTopic(name:string|null|undefined): Promise<[boo
             data: data
         })
 
+        await sendLog({
+            Title: "Add Topic",
+            route: '[POST] /blog/topic/:id',
+            Status: "pass",
+            Type: "edit",
+            Des: `topic ${result.name} added successfully`
+        })
+
         return [true,200,{success: true, message: 'topic added successfully', data: result}]
     } catch (error) {
+
+        await sendLog({
+            Title: "Add Topic Error",
+            route: '[POST] /blog/topic/:id',
+            Status: "error",
+            Type: "error",
+            Des: (error as Error).message
+        })
         throw error
     }
 }

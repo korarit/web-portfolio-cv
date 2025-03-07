@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client'
+import sendLog from '@/lib/discord'
 
 const prisma = new PrismaClient()
 
@@ -28,8 +29,23 @@ export default async function updateTopic(id:number, name:string|null|undefined)
             }
         })
 
+        await sendLog({
+            Title: "Update Topic",
+            route: '[PATCH] /blog/topic/:id',
+            Status: "pass",
+            Type: "edit",
+            Des: `topic updated successfully with id : ${id}`
+        })
+
         return [200,{success: true, message: 'topic updated successfully', data: result}]
     } catch (error) {
+        await sendLog({
+            Title: "Update Topic Error",
+            route: '/blog/topic/:id/patch',
+            Status: "error",
+            Type: "error",
+            Des: (error as Error).message
+        })
         throw error
     }
 }

@@ -1,5 +1,7 @@
 import { NextResponse, NextRequest } from 'next/server'
 
+import sendLog from '@/lib/discord'
+
 import { getSocial, getProjects } from './get'
 import addContantDB from './post'
 
@@ -37,6 +39,13 @@ export async function GET(request: NextRequest) {
         }
         
     } catch (error) {
+        await sendLog({
+            Title: "Get Contact Error",
+            route: '[GET] /contact_at',
+            Status: "error",
+            Des: (error as Error).message,
+            Type: "error"
+        })
         return NextResponse.json({
             success: false,
             message: 'failed to fetch contact data',

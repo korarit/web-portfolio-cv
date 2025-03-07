@@ -1,5 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 
+import sendLog from '@/lib/discord'
+
 const prisma = new PrismaClient()
 
 export default async function deleteProject(ProjectId: number): Promise<[number, {success: boolean, message: string, data?: any}]> {
@@ -18,6 +20,13 @@ export default async function deleteProject(ProjectId: number): Promise<[number,
 
         return [200, {success: true, message: 'project data delete successfully', data: data}]
     } catch (error) {
+        await sendLog({
+            Title: "Delete Project Error",
+            route: '[POST] /project/[id]',
+            Status: "error",
+            Des: (error as Error).message,
+            Type: "error"
+        })
         throw error
     }
 }

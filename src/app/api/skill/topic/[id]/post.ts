@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import {v7 as uuidv7} from 'uuid'
 import { uploadToR2 } from '@/lib/cloudflare'
+import sendLog from '@/lib/discord'
 
 const prisma = new PrismaClient()
 
@@ -48,8 +49,25 @@ export async function addSkillToTopic(
             }
         })
 
+        await sendLog({
+            Title: "Add Skill",
+            route: '[POST] /skill/topic/:id',
+            Status: "pass",
+            Type: "edit",
+            Des: `skill ${result.name} added successfully`
+        })
+
         return [200,{success: true, message: 'skill topic added successfully', data: result}]
     }catch (error) {
+
+        await sendLog({
+            Title: "Add Skill Error",
+            route: '[POST] /skill/topic/:id',
+            Status: "error",
+            Type: "error",
+            Des: (error as Error).message
+        })
+
         throw error
     }
 }

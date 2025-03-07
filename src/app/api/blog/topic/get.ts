@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client'
-import { list } from 'postcss'
+
+import sendLog from '@/lib/discord'
 
 const prisma = new PrismaClient()
 
@@ -14,6 +15,15 @@ export default async function GetListTopic(): Promise<[number,{success:boolean,m
 
         return [200,{success: true, message: 'topic fetched successfully', data: {list : data, count: data.length}}]
     } catch (error) {
+
+        await sendLog({
+            Title: "Get List Topic Error",
+            route: '/blog/topic/get',
+            Status: "error",
+            Des: (error as Error).message,
+            Type: "error"
+        })
+
         throw error
     }
 }
