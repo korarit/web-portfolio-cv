@@ -59,7 +59,7 @@ export default async function PatchBlog(id: number, {name, topic_id, link, view_
         if (topic_id) {
             data.blog_topics = {
                 connect: {
-                    id: Number(topic_id)
+                    id: parseInt(id.toString())
                 }
             }
         }
@@ -70,7 +70,7 @@ export default async function PatchBlog(id: number, {name, topic_id, link, view_
 
         const has_blog = await prisma.blog.findFirst({
             where: {
-                id: id
+                id: parseInt(id.toString())
             }
         })
 
@@ -80,7 +80,7 @@ export default async function PatchBlog(id: number, {name, topic_id, link, view_
 
         const blog = await prisma.blog.update({
             where: {
-                id: id
+                id: parseInt(id.toString())
             },
             data: data
         })
