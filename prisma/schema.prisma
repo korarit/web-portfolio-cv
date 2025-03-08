@@ -13,29 +13,28 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id                 Int                 @id @default(autoincrement())
-  username           String
-  password           String
-  thrid_party_logins thrid_party_login[]
-  user_logins        user_login[]
-}
-
-model thrid_party_login {
-  id       Int    @id @default(autoincrement())
-  token    String
-  platform String
-  author   User   @relation(fields: [user_id], references: [id])
-  user_id  Int
-}
-
-model user_login {
+model otp {
   id         Int      @id @default(autoincrement())
-  user       User     @relation(fields: [user_id], references: [id])
-  user_id    Int
+  
+  otp        String
+  otp_code   String
+  used Boolean @default(false)
+
+  expired_at DateTime
+  created_at DateTime @default(now())
+  
+  sessions   session[]
+}
+
+model session {
+  id         Int      @id @default(autoincrement())
+
+  otp        otp      @relation(fields: [otp_id], references: [id])    
+  otp_id     Int
+
   token      String
-  login_time DateTime @default(now())
   login_ip   String
+  created_at DateTime @default(now())
 }
 
 model certificate {
@@ -68,6 +67,7 @@ model blog_topic {
 
 model blog {
   id Int @id @default(autoincrement())
+  sort_id      Int    @default(0)
 
   name       String
   link       String?
@@ -82,12 +82,16 @@ model blog {
 
 model skill_topic {
   id     Int     @id @default(autoincrement())
+  sort_id      Int    @default(0)
+  
   name   String
   skills skill[]
 }
 
 model skill {
   id          Int         @id @default(autoincrement())
+  sort_id      Int    @default(0)
+
   skill_topic skill_topic @relation(fields: [topic_id], references: [id])
   topic_id    Int
   name        String
@@ -96,12 +100,15 @@ model skill {
 
 model project_topic {
   id       Int       @id @default(autoincrement())
+  sort_id      Int    @default(0)
   name     String
   projects project[]
 }
 
 model project {
   id           Int     @id @default(autoincrement())
+  sort_id      Int    @default(0)
+  
   name         String
   description  String @db.Text
   
