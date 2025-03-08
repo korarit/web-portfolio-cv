@@ -66,7 +66,7 @@ export default function Layout({children}: Readonly<{children: React.ReactNode;}
             <div className="bg-[#818181] w-dvw h-dvh xl:p-8 2xl:px-20 2xl:py-12 overflow-hidden custom-scrollbar">
                 <div className="h-full w-full bg-[#242424] xl:border xl:border-[#000000] rounded-lg flex flex-col overflow-hidden">
                     {/* Header */}
-                    <Navbar />
+                    <Navbar showMenu={true} />
                     <div className="flex-auto w-full max-h-full overflow-hidden">
                     {children}
                     </div>
