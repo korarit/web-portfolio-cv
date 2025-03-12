@@ -17,21 +17,22 @@ model otp {
   id         Int      @id @default(autoincrement())
   
   otp        String
-  otp_code   String
+  otp_code   String @unique
   used Boolean @default(false)
 
   expired_at DateTime
   created_at DateTime @default(now())
   
-  sessions   session[]
+  session    session? @relation(fields: [session_id], references: [id]) // One-to-One
+  session_id Int? @unique
 }
 
 model session {
   id         Int      @id @default(autoincrement())
 
-  otp        otp      @relation(fields: [otp_id], references: [id])    
-  otp_id     Int
-
+  otp        otp?
+  otp_id     Int? @unique
+  
   token      String
   login_ip   String
   created_at DateTime @default(now())
