@@ -4,6 +4,7 @@ import sendLog from "@/lib/discord";
 import bcrypt from "bcrypt";
 import { PrismaClient } from '@prisma/client';
 import moment from "moment-timezone";
+import { preinit } from "react-dom";
 
 
 function generateRandomOTP(length: number) {
@@ -89,17 +90,46 @@ export async function saveOTP(): Promise<OTP> {
     }
 }
 
-export default async function checkOTP(otp:string, otp_code:string): Promise<boolean> {
+export async function createSession(otp_id: number, ip: string): Promise<boolean> {
+    try {
+        const prisma = new PrismaClient();
+
+        const result = await prisma.session.create({
+            data: {
+                login_ip: ip,
+                token: generateRandomCode(32),
+                otp:{
+                    connect:{
+                        id: parseInt(otp_id.toString())
+                    }
+                }
+            }
+        });
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+
+export async function checkOTP(otp:string, otp_code:string): Promise<boolean> {
     try {
         const prisma = new PrismaClient();
 
         const result = await prisma.otp.findFirst({
             where: {
                 otp_code: otp_code
+            },
+            include: {
+                session: true
             }
         });
 
         if (!result) {
+            return false;
+        }
+
+        //if has session is to false
+        if (result.session) {
             return false;
         }
 
