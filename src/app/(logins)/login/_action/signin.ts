@@ -36,9 +36,16 @@ export default async function SignInByOTP ({otp_code, otp}:Props) : Promise<Send
             message: "Success"
         };
     } catch (error) {
+        if (error instanceof Error) {
+            return {
+                success: false,
+                message: error.message || "Failed to Sign In"
+            };
+        }
+
         return {
             success: false,
-            message: error.message
+            message: "Failed to Sign In"
         };
     }
 }
