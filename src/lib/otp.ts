@@ -45,7 +45,7 @@ export async function saveOTP(): Promise<OTP> {
         const time = moment().tz("Asia/Bangkok").toDate();
 
         //get expire time
-        const expire_mins = process.env.OTP_EXPIRE_MINS || 10;
+        const expire_mins = process.env.OTP_EXPIRE_MINS;
         if (!expire_mins) {
             sendLog({
                 Title: "OTP Expire Time is not set",
@@ -58,7 +58,7 @@ export async function saveOTP(): Promise<OTP> {
             return { status: false };
         }
 
-        const expire = moment().tz("Asia/Bangkok").add(expire_mins, 'minutes').toDate();
+        const expire = moment().tz("Asia/Bangkok").add(parseInt(expire_mins), 'minutes').toDate();
 
         const hash_otp = await bcrypt.hash(otp, 10);
 
@@ -90,14 +90,27 @@ export async function saveOTP(): Promise<OTP> {
     }
 }
 
-export async function createSession(otp_id: number, ip: string): Promise<boolean> {
+interface SessionResult {
+    status: boolean;
+    token?: string;
+}
+export async function createSession(otp_id: number, ip: string): Promise<SessionResult> {
     try {
         const prisma = new PrismaClient();
+
+        //generate token
+        const token = generateRandomCode(32);
+
+        const hash_token = await bcrypt.hash(token, 10);
+
+        //current time
+        const time = moment().tz("Asia/Bangkok").toDate();
 
         const result = await prisma.session.create({
             data: {
                 login_ip: ip,
-                token: generateRandomCode(32),
+                token: hash_token,
+                created_at: time,
                 otp:{
                     connect:{
                         id: parseInt(otp_id.toString())
@@ -105,13 +118,24 @@ export async function createSession(otp_id: number, ip: string): Promise<boolean
                 }
             }
         });
-        return true;
+        return {
+            status: true,
+            token: result.token
+        };
     } catch (e) {
-        return false;
+        return {
+            status: false
+        };
     }
 }
 
-export async function checkOTP(otp:string, otp_code:string): Promise<boolean> {
+interface CheckResult {
+    status: boolean;
+    message: string;
+    otp_id?: number;
+}
+
+export async function checkOTP(otp:string, otp_code:string): Promise<CheckResult> {
     try {
         const prisma = new PrismaClient();
 
@@ -125,26 +149,57 @@ export async function checkOTP(otp:string, otp_code:string): Promise<boolean> {
         });
 
         if (!result) {
-            return false;
+            return { status: false, message: "Invalid OTP" };
         }
 
         //if has session is to false
         if (result.session) {
-            return false;
+            return { status: false, message: "OTP is already used" };
         }
+
+        //if failed count is more than 10
+        if (result.failed_count > 10) {
+            return { status: false, message: "OTP is failed to use more than 10" };
+        }
+
 
         const match = await bcrypt.compare(otp, result.otp);
         if (!match) {
-            return false;
+
+            //add failed count
+            await prisma.otp.update({
+                where: {
+                    id: result.id
+                },
+                data: {
+                    failed_count:{
+                        increment: 1
+                    }
+                }
+            });
+
+            return { status: false, message: "Invalid OTP" };
         }
 
         const now = moment().tz("Asia/Bangkok").toDate();
         if (now > result.expired_at) {
-            return false;
+            return { status: false, message: "OTP is expired" };
         }
 
-        return true;
+        return {
+            status: true,
+            message: "OTP is valid",
+            otp_id: result.id
+        };
     } catch (e) {
-        return false;
+        sendLog({
+            Title: "Failed to check OTP",
+            Status: "error",
+            route: "checkOTP",
+            Type: "error",
+            Des: "Failed to check OTP",
+        });
+        console.error("Failed to check OTP", e);
+        return { status: false, message: "Failed to check OTP" };
     }
 }

@@ -2,7 +2,7 @@ import NextAuth from "next-auth"
 import Credentials from "next-auth/providers/credentials"
 
 
-import {checkOTP} from "@/lib/otp"
+import {checkOTP, createSession} from "@/lib/otp"
 
 // Override interface User และ Session
 declare module "next-auth" {
@@ -44,11 +44,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
             //check otp
             const result = await checkOTP(otp, otp_code);
-            if (!result) {
-                return null;
+            if (!result.status || !result.otp_id) {
+                throw new Error(result.message);
             }
 
-            return { session_id: ip };
+            //create session
+            const session = await createSession(result.otp_id, ip);
+            if (!session.status || !session.token) {
+                throw new Error("Failed to create session");
+            }
+
+            return { session_id: session.token };
         }
     })
   ],
