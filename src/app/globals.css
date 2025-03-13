@@ -56,3 +56,16 @@
     filter: blur(0px); /* ไม่เบลอ */
   }
 }
+
+@media (min-width: 1280px) {
+  :root {
+    --toastify-toast-offset: 48px;
+  }
+}
+
+@media (min-width: 1536px) {
+  :root {
+    --toastify-toast-offset: 64px;
+    --toastify-toast-right: 96px;
+  }
+}
