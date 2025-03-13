@@ -20,6 +20,8 @@ model otp {
   otp_code   String @unique
   used Boolean @default(false)
 
+  failed_count Int @default(0)
+
   expired_at DateTime
   created_at DateTime @default(now())
   
