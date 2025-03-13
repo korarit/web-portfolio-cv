@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { ToastContainer } from 'react-toastify';
 
 
 import Navbar from '@/components/navbar';
@@ -73,6 +74,8 @@ export default function Layout({children}: Readonly<{children: React.ReactNode;}
                     {/* Footer */}
                     <Footer />
                 </div>
+
+                <ToastContainer />
             </div>
         </>
     );
