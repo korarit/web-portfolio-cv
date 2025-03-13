@@ -34,9 +34,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         },
         authorize: async (credentials) => {
             
+          console.log(credentials)
+
             if (typeof credentials.otp !== "string" || typeof credentials.otp_code !== "string" || typeof credentials.ip !== "string") {
                 return null;
             }
+
             
             const otp = credentials.otp;
             const otp_code = credentials.otp_code;
@@ -53,6 +56,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             if (!session.status || !session.token) {
                 throw new Error("Failed to create session");
             }
+
+            console.log(session.token)
 
             return { session_id: session.token };
         }

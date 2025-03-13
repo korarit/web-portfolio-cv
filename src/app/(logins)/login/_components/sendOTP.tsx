@@ -1,8 +1,15 @@
 "use client";
 
+import { redirect } from 'next/navigation'
+
 import { useEffect, useState } from 'react';
 import FrontawesomeIcon from '@/components/FrontawesomeIcon';
 import OtpInput from 'react-otp-input';
+
+import { toast, Bounce } from 'react-toastify';
+
+import SignInByOTP from '../_action/signin';
+
 
 interface Props {
     code: string;
@@ -19,7 +26,34 @@ export default function sendOTP({code, expiredAt, handleBack}:Props) {
     }, [otp])
 
     const handleSendOTP = async () => {
-        
+       const {success, message} = await SignInByOTP({otp_code: code, otp: otp});
+       if (success) {
+                toast.success(message, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    transition: Bounce
+                });
+
+                return redirect('/');
+         }
+
+        if (!success) {
+            toast.error(message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                transition: Bounce
+            });
+        }
     }
 
     return (

@@ -1,10 +1,23 @@
-import Image from 'next/image'
 
+
+import Image from 'next/image'
+import { redirect } from 'next/navigation'
+
+import { auth } from "@/lib/auth"
 import OTP from './_components/OTP'
 import blueblur from '@/assets/bg/blue-blur.svg'
 import greenblur from '@/assets/bg/green-blur.svg'
 
+
+
+
+
 export default async function Home() {
+
+  const session = await auth()
+  if (session) {
+    return redirect('/')
+  }
 
   return (
     <>
