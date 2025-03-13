@@ -1,15 +1,48 @@
+import { toast, Bounce } from 'react-toastify';
 
 
 import FrontawesomeIcon from '@/components/FrontawesomeIcon';
+import requestOTP from '../_action/requestOTP';
 
 interface Props {
     setShowInput: (value: boolean) => void;
+    setCode: (value: string) => void;
+    setExpiredAt: (value: Date) => void;
 }
 
-export default function getOTP({setShowInput}: Readonly<Props>) {
+export default function getOTP({setShowInput, setCode, setExpiredAt}: Readonly<Props>) {
 
     const handleGetOTP = async () => {
+        const result = await requestOTP();
+        if (!result.status || !result.code || !result.expired_at) {
+            toast.error('Request OTP Failed!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                closeButton: false,
+                pauseOnHover: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            });
+            return;
+        }
+
+        toast.success('Request OTP Success!', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            progress: undefined,
+            theme: "dark",
+            transition: Bounce,
+        });
+
         setShowInput(true)
+        setCode(result.code)
+        setExpiredAt(result.expired_at)
     }
 
     return (
