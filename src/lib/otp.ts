@@ -4,8 +4,8 @@ import sendLog from "@/lib/discord";
 import bcrypt from "bcrypt";
 import { PrismaClient } from '@prisma/client';
 import moment from "moment-timezone";
-import { preinit } from "react-dom";
 
+import { getIP } from "@/lib/getIP";
 
 function generateRandomOTP(length: number) {
     let result = '';
@@ -71,9 +71,31 @@ export async function saveOTP(): Promise<OTP> {
             },
         });
 
+        const ip = await getIP();
+        if (!ip) {
+            sendLog({
+                Title: "Failed to get IP for OTP request",
+                Status: "error",
+                route: "requestOTP",
+                Type: "error",
+                Des: "Failed to get IP",
+            });
+            console.error("Failed to get IP");
+            return { status: false };
+        }
+
+        sendLog({
+            Title: "OTP Code For Login",
+            Status: "pass",
+            route: "requestOTP",
+            Type: "request",
+            IP: ip,
+            Des: `OTP: ${otp} OTP Code: ${code} Expired At: ${expire.toLocaleTimeString("th-TH") + " " + expire.toLocaleDateString("th-TH")}`,
+        });
+
         return {
             status: true,
-            otp: result.otp,
+            otp: otp,
             otp_code: result.otp_code,
             expired_at: result.expired_at
         };
