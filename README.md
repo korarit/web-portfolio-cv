@@ -27,7 +27,7 @@ The Website for showing me history , skill , project and blog
 
 - [x] API Has Discord Webhook Logging
 
-- [ ] Login for Adminstartor (in Process)
+- [x] Login for Adminstartor
 
 - [ ] Back-office for edit content
 
