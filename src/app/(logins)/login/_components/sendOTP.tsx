@@ -39,7 +39,12 @@ export default function sendOTP({code, expiredAt, handleBack}:Props) {
                     transition: Bounce
                 });
 
-                return redirect('/');
+                //หน่วงเวลา 3 วินาที
+                setTimeout(() => {
+                    return redirect('/');
+                }, 3000);
+
+                return;
          }
 
         if (!success) {
