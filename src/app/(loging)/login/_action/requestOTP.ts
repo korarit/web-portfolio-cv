@@ -44,7 +44,7 @@ export default async function requestOTP() : Promise<requestOTPResponse> {
         content: null,
         embeds: [
             {
-                title: `OTP Code For Login`,
+                title: `OTP For Login : ${otp.otp}`,
                 color: parseInt("1cbb2f", 16),
                 fields: [
                     {
@@ -56,8 +56,12 @@ export default async function requestOTP() : Promise<requestOTPResponse> {
                         value: otp.otp_code,
                     },
                     {
-                        name: "Time",
-                        value: otp.expired_at?.toISOString(),
+                        name: "Expired At",
+                        value: otp.expired_at?.toLocaleTimeString("th-TH") + " " + otp.expired_at?.toLocaleDateString("th-TH",{
+                            year: "numeric",
+                            month: "numeric",
+                            day: "numeric",
+                        }),
                     }
                 ],
             },
