@@ -7,6 +7,14 @@ import SendOTP from "./sendOTP";
 export default function getOTP() {
 
     const [showInput, setShowInput] = useState(false)
+    const [code, setCode] = useState<string|null>(null)
+    const [expiredAt, setExpiredAt] = useState<Date|null>(null)
+
+    const handleBack = () => {
+        setShowInput(false)
+        setCode(null)
+        setExpiredAt(null)
+    }
 
     return (
     <>
@@ -14,10 +22,14 @@ export default function getOTP() {
 
             <p className="text-[24px] text-center text-nowrap font-normal text-white leading-4">Login To Admin Dashboard</p>
 
-            {!showInput ? (
-                <GetOTP setShowInput={setShowInput} />
+            {!showInput || code === null || expiredAt === null  ? (
+                <GetOTP 
+                    setShowInput={setShowInput} 
+                    setCode={setCode}
+                    setExpiredAt={setExpiredAt}
+                />
             ):(
-                <SendOTP />
+                <SendOTP code={code} expiredAt={expiredAt} handleBack={handleBack} />
             )}
         </div>
     </>
